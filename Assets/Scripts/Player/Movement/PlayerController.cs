@@ -16,11 +16,22 @@ public class PlayerController : MonoBehaviour
         {
             movement.Jump(config.jumpForce);
         }
+
+        if (input.CheckRun())
+        {
+            movementState.isRunning = !movementState.isRunning;
+        }
+       
     }
     private void FixedUpdate()
     {
         movement.Move(input.moveAxis, CountCurSpeed());
         movement.Rotate(input.lookAxis, config.mouseSensitivity);
+
+        if(input.moveAxis == Vector2.zero || input.moveAxis.y < 0)
+        {
+            movementState.isRunning = false;
+        }
     }
 
     private void Awake()

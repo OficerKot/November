@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour
     public Vector2 moveAxis { get; private set; }
     public Vector2 lookAxis { get; private set; }
     bool jumpPerformed;
+    bool runPerformed;
     public bool crouchPressed { get; private set; }
 
     public bool CheckJump()
@@ -16,6 +17,16 @@ public class PlayerInput : MonoBehaviour
         else
         {
             jumpPerformed = false;
+            return true;
+        }
+    }
+
+    public bool CheckRun()
+    {
+        if (!runPerformed) return false;
+        else
+        {
+            runPerformed = false;
             return true;
         }
     }
@@ -32,18 +43,25 @@ public class PlayerInput : MonoBehaviour
         _actions.Gameplay.LookAround.performed += PerformRotate;
         _actions.Gameplay.LookAround.canceled += PerformRotate;
 
+        _actions.Gameplay.Run.performed += ToggleRun;
+
         _actions.Gameplay.Move.performed += PerformMove;
         _actions.Gameplay.Move.canceled += PerformMove;
 
-        _actions.Gameplay.Jump.performed += PerformJump;
+        _actions.Gameplay.Jump.performed += ToggleJump;
 
         _actions.Gameplay.Crouch.started += _ => crouchPressed = true;
         _actions.Gameplay.Crouch.canceled += _ => crouchPressed = false;
     }
 
-    void PerformJump(InputAction.CallbackContext context)
+    void ToggleJump(InputAction.CallbackContext context)
     {
         jumpPerformed = true;
+    }
+
+    void ToggleRun(InputAction.CallbackContext context)
+    {
+        runPerformed = true;
     }
 
     void PerformMove(InputAction.CallbackContext context)
@@ -59,7 +77,10 @@ public class PlayerInput : MonoBehaviour
     void OnDisable()
     {
         _actions.Gameplay.Move.performed -= PerformMove;
-        _actions.Gameplay.Jump.performed -= PerformJump;
+
+        _actions.Gameplay.Jump.performed -= ToggleJump;
+
+        _actions.Gameplay.Run.performed -= ToggleRun;
 
         _actions.Gameplay.LookAround.performed -= PerformRotate;
         _actions.Gameplay.LookAround.canceled -= PerformRotate;

@@ -6,5 +6,4 @@ public class PlayerMovementState
     public bool isCroucning = false;
     public bool isOnGround = false;
 
-
 }

@@ -131,6 +131,16 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": true,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""bda0087e-a3e5-447a-b427-c3ba73f025ef"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -221,6 +231,17 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""LookAround"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""105978f6-bda9-4504-bcce-8a174827ec1d"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -233,6 +254,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_LookAround = m_Gameplay.FindAction("LookAround", throwIfNotFound: true);
+        m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
     }
 
     ~@Player_Actions()
@@ -317,6 +339,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_LookAround;
+    private readonly InputAction m_Gameplay_Run;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -344,6 +367,10 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/LookAround".
         /// </summary>
         public InputAction @LookAround => m_Wrapper.m_Gameplay_LookAround;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Run".
+        /// </summary>
+        public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -382,6 +409,9 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
             @LookAround.started += instance.OnLookAround;
             @LookAround.performed += instance.OnLookAround;
             @LookAround.canceled += instance.OnLookAround;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
         }
 
         /// <summary>
@@ -405,6 +435,9 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
             @LookAround.started -= instance.OnLookAround;
             @LookAround.performed -= instance.OnLookAround;
             @LookAround.canceled -= instance.OnLookAround;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
         }
 
         /// <summary>
@@ -473,5 +506,12 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLookAround(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Run" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRun(InputAction.CallbackContext context);
     }
 }
