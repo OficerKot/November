@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     public Vector2 lookAxis { get; private set; }
     bool jumpPerformed;
     bool runPerformed;
-    public bool crouchPressed { get; private set; }
+    bool crouchPerformed;
 
     public bool CheckJump()
     {
@@ -17,6 +17,16 @@ public class PlayerInput : MonoBehaviour
         else
         {
             jumpPerformed = false;
+            return true;
+        }
+    }
+
+    public bool CheckCrouch()
+    {
+        if (!crouchPerformed) return false;
+        else
+        {
+            crouchPerformed = false;
             return true;
         }
     }
@@ -50,8 +60,8 @@ public class PlayerInput : MonoBehaviour
 
         _actions.Gameplay.Jump.performed += ToggleJump;
 
-        _actions.Gameplay.Crouch.started += _ => crouchPressed = true;
-        _actions.Gameplay.Crouch.canceled += _ => crouchPressed = false;
+        _actions.Gameplay.Crouch.started += _ => crouchPerformed = true;
+        _actions.Gameplay.Crouch.canceled += _ => crouchPerformed = false;
     }
 
     void ToggleJump(InputAction.CallbackContext context)
@@ -85,7 +95,7 @@ public class PlayerInput : MonoBehaviour
         _actions.Gameplay.LookAround.performed -= PerformRotate;
         _actions.Gameplay.LookAround.canceled -= PerformRotate;
 
-        _actions.Gameplay.Crouch.started -= _ => crouchPressed = true;
-        _actions.Gameplay.Crouch.canceled -= _ => crouchPressed = false;
+        _actions.Gameplay.Crouch.started -= _ => crouchPerformed = true;
+        _actions.Gameplay.Crouch.canceled -= _ => crouchPerformed = false;
     }
 }

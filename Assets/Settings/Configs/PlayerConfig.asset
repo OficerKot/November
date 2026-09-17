@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df25831addc956341ae7310d5df0f3a6, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
-  <mouseSensitivity>k__BackingField: 0.3
-  <walkSpeed>k__BackingField: 1.44
-  <runSpeedMultiplier>k__BackingField: 1.5
-  <crouchSpeedMultiplier>k__BackingField: 0.5
-  <jumpForce>k__BackingField: 3
+  defaultCameraHeight: 2
+  defaultColliderHeight: 2
+  mouseSensitivity: 0.2
+  walkSpeed: 1.2
+  runSpeedMultiplier: 1.5
+  jumpForce: 3
+  crouchCameraHeight: 1
+  crouchColliderHeight: 1
+  crouchSpeedMultiplier: 0.5

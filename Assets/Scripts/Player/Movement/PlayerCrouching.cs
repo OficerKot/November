@@ -3,19 +3,28 @@ using UnityEngine;
 public class PlayerCrouching : MonoBehaviour
 {
     [SerializeField] Transform cameraTransform;
-    Collider playerCollider;
+    CapsuleCollider playerCollider;
 
-    //вынести
-    float crouchCameraHeight = 0.3f;
-    float crouchColliderHeight = 0.3f;
+    Vector3 targetCameraPos;
 
-    void Crouch()
+
+    private void Awake()
     {
-      
+        playerCollider = GetComponent<CapsuleCollider>();
+    }
+    public void Toggle(float colliderHeight, float cameraHeight)
+    {
+      //  MoveCamera(cameraHeight);
+        ChangeCollider(colliderHeight);
     }
 
-    void Stand()
+    void MoveCamera(float height)
     {
+        cameraTransform.Translate(cameraTransform.position.x, height, cameraTransform.position.z);
+    }
 
+    void ChangeCollider(float height)
+    {
+        playerCollider.height = height;
     }
 }
