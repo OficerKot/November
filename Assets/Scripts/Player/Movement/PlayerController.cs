@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour 
 {
     PlayerInput input;
     PlayerMovement movement;
     PlayerMovementState movementState;
+   
     [SerializeField] PlayerConfig config;
 
 
@@ -17,7 +19,8 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        movement.Move(input.moveAxis, CountCurSpeed()); 
+        movement.Move(input.moveAxis, CountCurSpeed());
+        movement.Rotate(input.lookAxis, config.mouseSensitivity);
     }
 
     private void Awake()

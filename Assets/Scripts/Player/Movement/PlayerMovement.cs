@@ -10,12 +10,24 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(Vector2 value, float speed)
     {
-        Vector3 dir = new Vector3(value.x, 0f, value.y).normalized;
-        dir = speed * dir * Time.fixedDeltaTime;
+        Vector3 dir = transform.right * value.x + transform.forward * value.y;
 
-        rb.MovePosition(rb.position + dir);
+        dir.Normalize();
+
+        Vector3 movement = dir * speed * Time.fixedDeltaTime;
+
+        rb.MovePosition(rb.position + movement);
     }
 
+    public void Rotate(Vector2 look, float sensitivity)
+    {
+        float rotation = look.x * sensitivity;
+
+        Quaternion deltaRotation =
+            Quaternion.Euler(0f, rotation, 0f);
+
+        rb.MoveRotation(rb.rotation * deltaRotation);
+    }
     public void Jump(float force)
     {
         rb.AddForce(Vector3.up * force, ForceMode.Impulse);

@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     private Player_Actions _actions;
     public Vector2 moveAxis { get; private set; }
+    public Vector2 lookAxis { get; private set; }
     bool jumpPerformed;
     public bool crouchPressed { get; private set; }
 
@@ -28,6 +29,9 @@ public class PlayerInput : MonoBehaviour
     {
         _actions.Gameplay.Enable();
 
+        _actions.Gameplay.LookAround.performed += PerformRotate;
+        _actions.Gameplay.LookAround.canceled += PerformRotate;
+
         _actions.Gameplay.Move.performed += PerformMove;
         _actions.Gameplay.Move.canceled += PerformMove;
 
@@ -47,11 +51,18 @@ public class PlayerInput : MonoBehaviour
         moveAxis = context.ReadValue<Vector2>();
     }
 
+    void PerformRotate(InputAction.CallbackContext context)
+    {
+        lookAxis = context.ReadValue<Vector2>();
+    }
 
     void OnDisable()
     {
         _actions.Gameplay.Move.performed -= PerformMove;
         _actions.Gameplay.Jump.performed -= PerformJump;
+
+        _actions.Gameplay.LookAround.performed -= PerformRotate;
+        _actions.Gameplay.LookAround.canceled -= PerformRotate;
 
         _actions.Gameplay.Crouch.started -= _ => crouchPressed = true;
         _actions.Gameplay.Crouch.canceled -= _ => crouchPressed = false;
