@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     PlayerMovement movement;
     PlayerMovementState movementState;
     PlayerCrouching crouchingComp;
-    GroundDetector groundDetector;
+    PlayerEnviropmentDetector enviropmentDetector;
 
     [SerializeField] PlayerConfig config;
 
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         
-        if (input.CheckJump() && groundDetector.IsGrounded)
+        if (input.CheckJump() && enviropmentDetector.IsGrounded)
         {
             movement.Jump(config.JumpForce);
         }
@@ -27,15 +27,17 @@ public class PlayerController : MonoBehaviour
 
         if (input.CheckCrouch())
         {
-            if (movementState.isCroucning)
+            if (movementState.isCroucning && !enviropmentDetector.IsHeadBlocked)
             {
                 crouchingComp.Toggle(config.DefaultColliderHeight, config.DefaultCameraHeight);
+                movementState.isCroucning = false;
             }
-            else
+            else if (!movementState.isCroucning)
             {
                 crouchingComp.Toggle(config.CrouchColliderHeight, config.CrouchCameraHeight);
+                movementState.isCroucning = true;
             }
-            movementState.isCroucning = !movementState.isCroucning;
+           
             
         }
        
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         movement = GetComponent<PlayerMovement>();
         crouchingComp = GetComponent<PlayerCrouching>();
-        groundDetector = GetComponent<GroundDetector>();
+        enviropmentDetector = GetComponent<PlayerEnviropmentDetector>();
         movementState = new PlayerMovementState();
     }
 
