@@ -17,7 +17,8 @@ MonoBehaviour:
   mouseSensitivity: 0.2
   walkSpeed: 1.2
   runSpeedMultiplier: 1.5
-  jumpForce: 3
+  jumpVelocity: 4
+  jumpCooldown: 0.5
   crouchCameraHeight: 1
   crouchColliderHeight: 1
   crouchSpeedMultiplier: 0.5

@@ -13,7 +13,8 @@ public class PlayerConfig : ScriptableObject
     [Header("Basic movement")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeedMultiplier;
-    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpVelocity;
+    [SerializeField] private float jumpCooldown;
 
     [Header("Crouching")]
     [SerializeField] private float crouchCameraHeight;
@@ -27,9 +28,11 @@ public class PlayerConfig : ScriptableObject
 
     public float WalkSpeed => walkSpeed;
     public float RunSpeedMultiplier => runSpeedMultiplier;
-    public float JumpForce => jumpForce;
+    public float JumpVelocity => jumpVelocity;
 
     public float CrouchCameraHeight => crouchCameraHeight;
     public float CrouchColliderHeight => crouchColliderHeight;
     public float CrouchSpeedMultiplier => crouchSpeedMultiplier;
+
+    public float JumpCooldown => jumpCooldown;
 }

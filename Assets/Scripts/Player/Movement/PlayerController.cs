@@ -14,20 +14,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        
-        if (input.CheckJump() && enviropmentDetector.IsGrounded)
-        {
-            movement.Jump(config.JumpForce);
-        }
-
-        if (input.CheckRun())
-        {
-            movementState.isRunning = !movementState.isRunning;
-        }
-
         if (input.CheckCrouch())
         {
-            if (movementState.isCroucning && !enviropmentDetector.IsHeadBlocked)
+            if (movementState.isCroucning && !enviropmentDetector.CheckHeadBlock())
             {
                 crouchingComp.Toggle(config.DefaultColliderHeight, config.DefaultCameraHeight);
                 movementState.isCroucning = false;
@@ -37,17 +26,27 @@ public class PlayerController : MonoBehaviour
                 crouchingComp.Toggle(config.CrouchColliderHeight, config.CrouchCameraHeight);
                 movementState.isCroucning = true;
             }
-           
-            
-        }
-       
+        } 
     }
+
     private void FixedUpdate()
     {
+        movementState.isJumping = (input.IsJumpHeld && enviropmentDetector.CheckGround());
+    
+        if (input.CheckRun())
+        {
+            movementState.isRunning = !movementState.isRunning;
+        }
+
         movement.Move(input.moveAxis, CountCurSpeed());
         movement.Rotate(input.lookAxis, config.MouseSensitivity);
 
-        if(input.moveAxis == Vector2.zero || input.moveAxis.y < 0)
+        if (movementState.isJumping)
+        {
+            movement.Jump(config.JumpVelocity, config.JumpCooldown);
+        }
+
+        if (input.moveAxis == Vector2.zero || input.moveAxis.y < 0)
         {
             movementState.isRunning = false;
         }

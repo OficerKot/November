@@ -9,16 +9,7 @@ public class PlayerEnviropmentDetector : MonoBehaviour
     [SerializeField] float groundCheckDistance = 0.1f;
     [SerializeField] float headCheckRadius = 0.1f;
 
-    public bool IsGrounded { get; private set; }
-    public bool IsHeadBlocked { get; private set; }
-
-    private void Update()
-    {
-        IsGrounded = CheckGround();
-        IsHeadBlocked = CheckHeadBlock();
-    }
-
-    private bool CheckGround()
+    public bool CheckGround()
     {
         return Physics.Raycast(
             groundDetectorTransform.position,
@@ -28,7 +19,7 @@ public class PlayerEnviropmentDetector : MonoBehaviour
             );
     }
 
-    private bool CheckHeadBlock()
+    public bool CheckHeadBlock()
     {
         return Physics.CheckSphere(
            headDetectorTransform.position,

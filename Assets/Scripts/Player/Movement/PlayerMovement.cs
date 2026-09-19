@@ -3,20 +3,35 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
-
+    float jumpCooldown = 0;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-    public void Move(Vector2 value, float speed)
+
+    private void FixedUpdate()
     {
-        Vector3 dir = transform.right * value.x + transform.forward * value.y;
+        if (jumpCooldown > 0f)
+        {
+            jumpCooldown -= Time.fixedDeltaTime;
+        }
+    }
+    public void Move(Vector2 input, float speed)
+    {
+        Vector3 dir =
+            transform.right * input.x +
+            transform.forward * input.y;
 
         dir.Normalize();
 
-        Vector3 movement = dir * speed * Time.fixedDeltaTime;
+        Vector3 targetVelocity = dir * speed;
 
-        rb.MovePosition(rb.position + movement);
+        Vector3 velocity = rb.linearVelocity;
+
+        velocity.x = targetVelocity.x;
+        velocity.z = targetVelocity.z;
+
+        rb.linearVelocity = velocity;
     }
 
     public void Rotate(Vector2 look, float sensitivity)
@@ -28,8 +43,14 @@ public class PlayerMovement : MonoBehaviour
 
         rb.MoveRotation(rb.rotation * deltaRotation);
     }
-    public void Jump(float force)
+    public void Jump(float jumpVelocity, float cooldown)
     {
-        rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+        if (jumpCooldown > 0f) return;
+
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = jumpVelocity;
+        rb.linearVelocity = velocity;
+
+        jumpCooldown = cooldown;
     }
 }
