@@ -10,9 +10,13 @@ public class PlayerConfig : ScriptableObject
     [Header("Mouse")]
     [SerializeField] private float mouseSensitivity;
 
-    [Header("Basic movement")]
+    [Header("Walking/running")]
     [SerializeField] private float walkSpeed;
+    [SerializeField] private float walkAcceleration;
     [SerializeField] private float runSpeedMultiplier;
+    [SerializeField] private float runAcceleration;
+
+    [Header("Jumping")]
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float jumpCooldown;
 
@@ -27,7 +31,9 @@ public class PlayerConfig : ScriptableObject
     public float MouseSensitivity => mouseSensitivity;
 
     public float WalkSpeed => walkSpeed;
+    public float WalkAcceleration => walkAcceleration;
     public float RunSpeedMultiplier => runSpeedMultiplier;
+    public float RunAcceleration => runAcceleration;
     public float JumpVelocity => jumpVelocity;
 
     public float CrouchCameraHeight => crouchCameraHeight;

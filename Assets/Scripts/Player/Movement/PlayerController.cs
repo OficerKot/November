@@ -63,17 +63,20 @@ public class PlayerController : MonoBehaviour
 
     float CountCurSpeed()
     {
-        float speed = config.WalkSpeed;
+        float targetSpeed = config.WalkSpeed;
+        float acceleration = config.WalkAcceleration;
         if (movementState.isRunning)
         {
-            speed *= config.RunSpeedMultiplier;
+            targetSpeed *= config.RunSpeedMultiplier;
+            acceleration = config.RunAcceleration;
         }
         if (movementState.isCroucning)
         {
-            speed *= config.CrouchSpeedMultiplier;
+            targetSpeed *= config.CrouchSpeedMultiplier;
         }
 
-        return speed;
+        float curSpeed = movement.GetCurrentHorizontalSpeed();
+        return SpeedCalculator.CalculateSpeed(curSpeed, targetSpeed, acceleration);
     }
 
 }

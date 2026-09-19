@@ -19,18 +19,18 @@ public class PlayerMovement : MonoBehaviour
     public void Move(Vector2 input, float speed)
     {
         Vector3 dir =
-            transform.right * input.x +
-            transform.forward * input.y;
+        transform.right * input.x +
+        transform.forward * input.y;
 
         dir.Normalize();
 
-        Vector3 targetVelocity = dir * speed;
-
         Vector3 velocity = rb.linearVelocity;
+        Vector3 horizontalVelocity = dir * speed;
 
-        velocity.x = targetVelocity.x;
-        velocity.z = targetVelocity.z;
+        velocity.x = horizontalVelocity.x;
+        velocity.z = horizontalVelocity.z;
 
+        Debug.Log("Speed:" + speed);
         rb.linearVelocity = velocity;
     }
 
@@ -52,5 +52,16 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = velocity;
 
         jumpCooldown = cooldown;
+    }
+
+    public float GetCurrentHorizontalSpeed()
+    {
+        Vector3 horizontalVelocity = new Vector3(
+            rb.linearVelocity.x,
+            0f,
+            rb.linearVelocity.z
+        );
+
+        return horizontalVelocity.magnitude;
     }
 }
