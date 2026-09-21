@@ -54,14 +54,8 @@ public class PlayerMovement : MonoBehaviour
         jumpCooldown = cooldown;
     }
 
-    public float GetCurrentHorizontalSpeed()
+    public Vector3 GetVelocity()
     {
-        Vector3 horizontalVelocity = new Vector3(
-            rb.linearVelocity.x,
-            0f,
-            rb.linearVelocity.z
-        );
-
-        return horizontalVelocity.magnitude;
+        return rb.linearVelocity;
     }
 }
