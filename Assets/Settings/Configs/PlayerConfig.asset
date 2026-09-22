@@ -15,7 +15,7 @@ MonoBehaviour:
   defaultCameraHeight: 2
   defaultColliderHeight: 2
   mouseSensitivity: 0.2
-  walkSpeed: 1.2
+  walkSpeed: 4
   runSpeedMultiplier: 1.5
   jumpVelocity: 4
   jumpCooldown: 0.5
