@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public interface IVelocityProvider
+{
+    public Vector3 GetVelocity();
+}
+public class PlayerMovement : MonoBehaviour, IVelocityProvider
 {
     Rigidbody rb;
     float jumpCooldown = 0;
@@ -30,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         velocity.x = horizontalVelocity.x;
         velocity.z = horizontalVelocity.z;
 
-        Debug.Log("Speed:" + speed);
+       // Debug.Log("Speed:" + speed);
         rb.linearVelocity = velocity;
     }
 

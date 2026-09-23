@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df25831addc956341ae7310d5df0f3a6, type: 3}
-  m_Name: PlayerConfig
+  m_Name: PlayerMovementConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
   defaultCameraHeight: 2
   defaultColliderHeight: 2
   mouseSensitivity: 0.2
   walkSpeed: 1.2
-  walkAcceleration: 50
+  walkAcceleration: 5
+  walkBrakeAcceleration: 3
   runSpeedMultiplier: 1.8
   runAcceleration: 1.5
-  minTurnSpeedMultiplier: 0
+  runBrakeAcceleration: 20
   jumpVelocity: 4
   jumpCooldown: 0.5
   crouchCameraHeight: 1

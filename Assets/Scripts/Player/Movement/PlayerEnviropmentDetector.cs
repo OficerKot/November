@@ -1,6 +1,20 @@
 using UnityEngine;
 
-public class PlayerEnviropmentDetector : MonoBehaviour
+//вынести потом
+public interface IGroundDetector
+{
+    public bool CheckGround();
+}
+
+public interface IHeadBlockDetector
+{
+    public bool CheckHeadBlock();
+}
+
+public class PlayerEnviropmentDetector : 
+    MonoBehaviour,
+    IHeadBlockDetector,
+    IGroundDetector
 {
     [SerializeField] Transform headDetectorTransform;
     [SerializeField] Transform groundDetectorTransform;

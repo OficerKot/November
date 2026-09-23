@@ -69,6 +69,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnDisable()
     {
+        _actions.Gameplay.Disable();
+
         _actions.Gameplay.Move.performed -= PerformMove;
         _actions.Gameplay.Move.canceled -= PerformMove;
 

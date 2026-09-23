@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerConfig", menuName = "Scriptable Objects/PlayerConfig")]
-public class PlayerConfig : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerConfig", menuName = "Scriptable Objects/PlayerMovementConfig")]
+public class PlayerMovementConfig : ScriptableObject
 {
     [Header("Height")]
     [SerializeField] private float defaultCameraHeight;

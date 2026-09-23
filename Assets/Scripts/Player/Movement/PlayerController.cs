@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -12,7 +11,7 @@ public class PlayerController : MonoBehaviour
     SpeedCalculator speedCalculator;
     TemporarySpeedModifier temporarySpeedModifier;
 
-    [SerializeField] PlayerConfig config;
+    [SerializeField] PlayerMovementConfig config;
 
     private void Awake()
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpeedCalculator
 {
     TemporarySpeedModifier speedModifier;
-    PlayerConfig config;
+    PlayerMovementConfig config;
     Vector3 previousTargetDirection;
     float accumulatedAngle;
     struct MovementSpeedParameters
@@ -12,7 +12,7 @@ public class SpeedCalculator
         public float acceleration;
         public float brakeAcceleration;
     }
-    public SpeedCalculator(TemporarySpeedModifier speedModifier, PlayerConfig config)
+    public SpeedCalculator(TemporarySpeedModifier speedModifier, PlayerMovementConfig config)
     {
         this.speedModifier = speedModifier;
         this.config = config;
@@ -102,7 +102,6 @@ public class SpeedCalculator
             ? brakeAcceleration
             : acceleration;
 
-            Debug.Log(usedAcceleration);
 
             return Mathf.MoveTowards(
                 curSpeed,
