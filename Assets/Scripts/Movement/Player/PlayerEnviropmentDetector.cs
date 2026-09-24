@@ -1,9 +1,10 @@
 using UnityEngine;
 
-//вынести потом
+
 public interface IGroundDetector
 {
     public bool CheckGround();
+    public Vector3 GetGroundNormal();
 }
 
 public interface IHeadBlockDetector
@@ -23,14 +24,21 @@ public class PlayerEnviropmentDetector :
     [SerializeField] float groundCheckDistance = 0.1f;
     [SerializeField] float headCheckRadius = 0.1f;
 
+    RaycastHit groundHit;
+
     public bool CheckGround()
     {
         return Physics.Raycast(
             groundDetectorTransform.position,
             Vector3.down,
+            out groundHit,
             groundCheckDistance,
             enviropmentMask
             );
+    }
+    public Vector3 GetGroundNormal()
+    {
+        return groundHit.normal;
     }
 
     public bool CheckHeadBlock()

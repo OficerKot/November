@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "PlayerConfig", menuName = "Scriptable Objects/PlayerMovementConfig")]
 public class PlayerMovementConfig : ScriptableObject
 {
+    [FormerlySerializedAs("defaultColliderHeight")]
     [Header("Height")]
-    [SerializeField] private float defaultCameraHeight;
-    [SerializeField] private float defaultColliderHeight;
+    [SerializeField] private float defaultPlayerHeight;
 
     [Header("Mouse")]
     [SerializeField] private float mouseSensitivity;
@@ -24,13 +25,12 @@ public class PlayerMovementConfig : ScriptableObject
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float jumpCooldown;
 
+    [FormerlySerializedAs("crouchColliderHeight")]
     [Header("Crouching")]
-    [SerializeField] private float crouchCameraHeight;
-    [SerializeField] private float crouchColliderHeight;
+    [SerializeField] private float crouchPlayerHeight;
     [SerializeField] private float crouchSpeedMultiplier;
 
-    public float DefaultCameraHeight => defaultCameraHeight;
-    public float DefaultColliderHeight => defaultColliderHeight;
+    public float DefaultPlayerHeight => defaultPlayerHeight;
 
     public float MouseSensitivity => mouseSensitivity;
 
@@ -42,8 +42,7 @@ public class PlayerMovementConfig : ScriptableObject
     public float RunBreakAcceleration => runBrakeAcceleration;
     public float JumpVelocity => jumpVelocity;
 
-    public float CrouchCameraHeight => crouchCameraHeight;
-    public float CrouchColliderHeight => crouchColliderHeight;
+    public float CrouchPlayerHeight => crouchPlayerHeight;
     public float CrouchSpeedMultiplier => crouchSpeedMultiplier;
 
     public float JumpCooldown => jumpCooldown;

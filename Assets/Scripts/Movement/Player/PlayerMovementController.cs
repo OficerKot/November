@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour 
+public class PlayerMovementController : MonoBehaviour 
 {
     PlayerInput input;
     PlayerMovement movement;
@@ -27,38 +27,51 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         temporarySpeedModifier.Tick(Time.fixedDeltaTime);
-        UpdateMovementState();
-        MovePlayer(speedCalculator.CalculateSpeed(
-            movement.GetVelocity(),
-            GetTargetDirection(input.moveAxis),
-            movementState));
-    }
-
-    void MovePlayer(float speed)
-    {
-        movement.Move(input.moveAxis, speed);
+        UpdateMovementState(); 
+        MovePlayer();
         movement.Rotate(input.lookAxis, config.MouseSensitivity);
 
         if (movementState.isJumping)
         {
             movement.Jump(config.JumpVelocity, config.JumpCooldown);
         }
+        
+        movement.Tick(Time.fixedDeltaTime);
+    }
+
+    void MovePlayer()
+    {
+        Vector3 targetDirection = GetTargetDirection(input.moveAxis);
+    
+        float speed = speedCalculator.CalculateSpeed(
+            movement.GetVelocity(),
+            targetDirection,
+            movementState);
+    
+        Vector3 velocity = targetDirection* speed;
+        
+        Debug.Log(
+            "Velocity: " + velocity +
+            ", target dir: " + targetDirection +
+            ", speed: " + speed);
+        
+        movement.Move(velocity);
     }
 
     void UpdateMovementState()
     {
-        movementState.isJumping = (input.IsJumpHeld && enviropmentDetector.CheckGround());
+        movementState.isJumping = (input.IsJumpHeld && movement.IsGrounded);
 
         if (input.CheckCrouch())
         {
             if (movementState.isCroucning && !enviropmentDetector.CheckHeadBlock())
             {
-                crouchingComp.Toggle(config.DefaultColliderHeight, config.DefaultCameraHeight);
+                crouchingComp.Toggle(config.DefaultPlayerHeight, 0);
                 movementState.isCroucning = false;
             }
             else if (!movementState.isCroucning)
             {
-                crouchingComp.Toggle(config.CrouchColliderHeight, config.CrouchCameraHeight);
+                crouchingComp.Toggle(config.CrouchPlayerHeight, 0.5f);
                 movementState.isCroucning = true;
             }
         }
