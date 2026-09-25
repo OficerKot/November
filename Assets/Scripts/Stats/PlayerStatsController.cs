@@ -21,8 +21,6 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float damage)
     {
-        eventBus.Publish(new Events.HealthDamageEvent(damage));
-        
         if (stats.health - damage <= config.MinHealth)
         {
             stats.SetHealth(0f);
@@ -32,12 +30,15 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
         {
             stats.SetHealth(stats.health - damage);
         }
+        
+        eventBus.Publish(new Events.HealthUpdateEvent(
+                stats.health,
+                damage,
+                true));
     }
 
     public void Heal(float healValue)
     {
-        eventBus.Publish(new Events.HealthHealedEvent());
-        
         if (stats.health + healValue >= config.MaxHealth)
         {
             stats.SetHealth(config.MaxHealth);

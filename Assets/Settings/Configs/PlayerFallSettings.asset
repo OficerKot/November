@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659908d79f9b15341a6f7a277f297c77, type: 3}
   m_Name: PlayerFallSettings
   m_EditorClassIdentifier: Assembly-CSharp::FallSettings
-  damagePerMeter: 10
+  damagePerMeter: 15
   safeFallDistance: 2
   minFallVelocity: -0.5

@@ -1,16 +1,48 @@
+using System;
+using System.Collections;
+using Events;
+using TMPro;
 using UnityEngine;
+using VContainer;
 
 public class HealthView : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Inject] private IReadOnlyEventBus eventBus;
+    TextMeshProUGUI healthText;
+    private Coroutine animationCoroutine;
+    
+    [SerializeField] public float showTimeSec = 3f;
+
+    private void Awake()
     {
-        
+        healthText = GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
+        eventBus.Subscribe<HealthUpdateEvent>(ShowHealth);
+    }
+
+    private void OnDisable()
+    {
+        eventBus.Unsubscribe<HealthUpdateEvent>(ShowHealth);
+    }
+    
+    private void ShowHealth(HealthUpdateEvent healthEvent)
+    {
+        healthText.text = $"{(int)healthEvent.curHealth} hp";
+        if (animationCoroutine != null)
+        {
+            StopCoroutine(animationCoroutine);
+        }
+        animationCoroutine = StartCoroutine(Animate(showTimeSec));
+    }
+
+    private IEnumerator Animate(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         
+        healthText.text = "";
+        animationCoroutine = null;  
     }
 }

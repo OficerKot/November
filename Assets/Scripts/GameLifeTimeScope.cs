@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -9,5 +10,8 @@ public class GameLifeTimeScope : LifetimeScope
         builder.Register<EventBus>(Lifetime.Singleton)
             .As<IEventBus>()
             .As<IReadOnlyEventBus>();
+        
+        builder.RegisterComponentInHierarchy<PlayerStatsController>();
+        builder.RegisterComponentInHierarchy<HealthView>();
     }
 }
