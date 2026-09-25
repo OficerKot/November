@@ -50,11 +50,11 @@ public class PlayerMovementController : MonoBehaviour
     
         Vector3 velocity = targetDirection* speed;
         
-        Debug.Log(
-            "Velocity: " + velocity +
-            ", target dir: " + targetDirection +
-            ", speed: " + speed);
-        
+        // Debug.Log(
+        //     "Velocity: " + velocity +
+        //     ", target dir: " + targetDirection +
+        //     ", speed: " + speed);
+        //
         movement.Move(velocity);
     }
 

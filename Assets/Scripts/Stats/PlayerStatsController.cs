@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using VContainer;
 
-//тоже потом вынести 
+//???? ????? ??????? 
 public interface IDamageable
 {
     public void TakeDamage(float damage);
@@ -11,8 +12,7 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
     [SerializeField] PlayerStatsConfig config;
     PlayerStats stats;
 
-    public event Action HealthEmpty;
-    public event Action HealthFull;
+    [Inject] private IEventBus eventBus;
 
     private void Awake()
     {
@@ -21,10 +21,12 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float damage)
     {
+        eventBus.Publish(new Events.HealthDamageEvent(damage));
+        
         if (stats.health - damage <= config.MinHealth)
         {
             stats.SetHealth(0f);
-            HealthEmpty?.Invoke();
+            eventBus.Publish(new Events.HealthDepletedEvent());
         }
         else
         {
@@ -34,10 +36,11 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
 
     public void Heal(float healValue)
     {
+        eventBus.Publish(new Events.HealthHealedEvent());
+        
         if (stats.health + healValue >= config.MaxHealth)
         {
             stats.SetHealth(config.MaxHealth);
-            HealthFull?.Invoke();
         }
         else
         {
@@ -45,5 +48,5 @@ public class PlayerStatsController : MonoBehaviour, IDamageable
         }
     }
 
-    //Методы изменения веса игрока тоже будут тут
+    //?????? ????????? ???? ?????? ???? ????? ???
 }
