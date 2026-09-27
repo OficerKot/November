@@ -353,7 +353,6 @@ GameObject:
   m_Component:
   - component: {fileID: 327944496}
   - component: {fileID: 327944497}
-  - component: {fileID: 327944499}
   - component: {fileID: 327944498}
   m_Layer: 6
   m_Name: CinemachineCamera
@@ -370,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327944495}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.011999841, y: 0.31, z: -0.3000002}
   m_LocalScale: {x: 2.9172306, y: 2.9172306, z: 2.9172306}
   m_ConstrainProportionsScale: 0
@@ -429,72 +428,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 327944495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c7b8f56b02c4788a7777fe3591c09b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineInputAxisController
-  ScanRecursively: 1
-  SuppressInputWhileBlending: 1
-  IgnoreTimeScale: 0
-  m_ControllerManager:
-    Controllers:
-    - Name: Look X (Pan)
-      Owner: {fileID: 327944499}
-      Enabled: 0
-      Input:
-        InputAction: {fileID: 3887949526505963313, guid: a02acd0f1e7bd464a8cf0593980dd41d, type: 3}
-        Gain: 0.5
-        CancelDeltaTime: 1
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-    - Name: Look Y (Tilt)
-      Owner: {fileID: 327944499}
-      Enabled: 1
-      Input:
-        InputAction: {fileID: 3887949526505963313, guid: a02acd0f1e7bd464a8cf0593980dd41d, type: 3}
-        Gain: -0.2
-        CancelDeltaTime: 1
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-  PlayerIndex: -1
-  AutoEnableInputs: 1
---- !u!114 &327944499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327944495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachinePanTilt
-  ReferenceFrame: 0
-  RecenterTarget: 0
-  PanAxis:
-    Value: 0
-    Center: 0
-    Range: {x: -180, y: 180}
-    Wrap: 1
-    Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
-    Restrictions: 0
-  TiltAxis:
-    Value: 0
-    Center: 0
-    Range: {x: -70, y: 70}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
-    Restrictions: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
+  playerBody: {fileID: 346453965}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,7 +519,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.011999841, y: 0.31, z: -0.3000002}
   m_LocalScale: {x: 2.9172306, y: 2.9172306, z: 2.9172306}
   m_ConstrainProportionsScale: 0
@@ -757,7 +694,7 @@ Transform:
   m_GameObject: {fileID: 346453961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.19, y: 3.06, z: 0.68}
+  m_LocalPosition: {x: 0.19, y: -0.259, z: 0.68}
   m_LocalScale: {x: 0.34279087, y: 0.34279087, z: 0.34279087}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -805,7 +742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ccb2cd87e68b943944a221df6dd04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  config: {fileID: 11400000, guid: 1abee022d6eadf64aa9911c3b212e59f, type: 2}
 --- !u!114 &346453970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648909400e3bf2f4ca39636a4858f60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
-  config: {fileID: 11400000, guid: 8016e527ea9146b47a133f56eb2fba68, type: 2}
 --- !u!143 &346453976
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2735,6 +2670,9 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  playerMovementConfig: {fileID: 11400000, guid: 1abee022d6eadf64aa9911c3b212e59f, type: 2}
+  playerStatsConfig: {fileID: 11400000, guid: 8016e527ea9146b47a133f56eb2fba68, type: 2}
+  cameraConfig: {fileID: 11400000, guid: cbae680f7f20e2243b833c234a4d6101, type: 2}
 --- !u!4 &1358790849
 Transform:
   m_ObjectHideFlags: 0

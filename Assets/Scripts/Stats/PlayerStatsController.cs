@@ -9,7 +9,7 @@ public interface IDamageable
 }
 public class PlayerStatsController : MonoBehaviour, IDamageable
 {
-    [SerializeField] PlayerStatsConfig config;
+    [Inject] PlayerStatsConfig config;
     PlayerStats stats;
 
     [Inject] private IEventBus eventBus;
