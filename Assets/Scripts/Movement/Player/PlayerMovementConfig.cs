@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu(fileName = "PlayerConfig", menuName = "Scriptable Objects/PlayerMovementConfig")]
+[CreateAssetMenu(fileName = "PlayerConfig", menuName = "Scriptable Objects/PlayerMovement Config")]
 public class PlayerMovementConfig : ScriptableObject
 {
     [FormerlySerializedAs("defaultColliderHeight")]
