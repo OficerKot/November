@@ -9,6 +9,9 @@ public class PlayerInput : MonoBehaviour
     public Vector2 lookAxis { get; private set; }
 
     public bool IsJumpHeld => _actions.Gameplay.Jump.IsPressed();
+    public bool IsLeftHandActive => _actions.Gameplay.ToggleLeftHand.IsPressed();
+    public bool IsRightHandActive => _actions.Gameplay.ToggleRightHand.IsPressed();
+    
     bool runPerformed;
     bool crouchPerformed;
     public bool CheckCrouch()

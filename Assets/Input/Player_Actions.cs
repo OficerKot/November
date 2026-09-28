@@ -141,6 +141,26 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""ToggleLeftHand"",
+                    ""type"": ""Button"",
+                    ""id"": ""31421885-b2ee-4d6f-bcc9-83a8c240f623"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""ToggleRightHand"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5656315-b217-4188-bfd3-61f7982f6c7c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -242,6 +262,28 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17a6ee4e-6a3c-4b70-b9c0-949fa4bee95c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleLeftHand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e528f85-be1a-4110-bb32-646ed2c49299"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleRightHand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -255,6 +297,8 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_LookAround = m_Gameplay.FindAction("LookAround", throwIfNotFound: true);
         m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
+        m_Gameplay_ToggleLeftHand = m_Gameplay.FindAction("ToggleLeftHand", throwIfNotFound: true);
+        m_Gameplay_ToggleRightHand = m_Gameplay.FindAction("ToggleRightHand", throwIfNotFound: true);
     }
 
     ~@Player_Actions()
@@ -340,6 +384,8 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_LookAround;
     private readonly InputAction m_Gameplay_Run;
+    private readonly InputAction m_Gameplay_ToggleLeftHand;
+    private readonly InputAction m_Gameplay_ToggleRightHand;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -371,6 +417,14 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Run".
         /// </summary>
         public InputAction @Run => m_Wrapper.m_Gameplay_Run;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ToggleLeftHand".
+        /// </summary>
+        public InputAction @ToggleLeftHand => m_Wrapper.m_Gameplay_ToggleLeftHand;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ToggleRightHand".
+        /// </summary>
+        public InputAction @ToggleRightHand => m_Wrapper.m_Gameplay_ToggleRightHand;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -412,6 +466,12 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
+            @ToggleLeftHand.started += instance.OnToggleLeftHand;
+            @ToggleLeftHand.performed += instance.OnToggleLeftHand;
+            @ToggleLeftHand.canceled += instance.OnToggleLeftHand;
+            @ToggleRightHand.started += instance.OnToggleRightHand;
+            @ToggleRightHand.performed += instance.OnToggleRightHand;
+            @ToggleRightHand.canceled += instance.OnToggleRightHand;
         }
 
         /// <summary>
@@ -438,6 +498,12 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
+            @ToggleLeftHand.started -= instance.OnToggleLeftHand;
+            @ToggleLeftHand.performed -= instance.OnToggleLeftHand;
+            @ToggleLeftHand.canceled -= instance.OnToggleLeftHand;
+            @ToggleRightHand.started -= instance.OnToggleRightHand;
+            @ToggleRightHand.performed -= instance.OnToggleRightHand;
+            @ToggleRightHand.canceled -= instance.OnToggleRightHand;
         }
 
         /// <summary>
@@ -513,5 +579,19 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRun(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleLeftHand" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleLeftHand(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleRightHand" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleRightHand(InputAction.CallbackContext context);
     }
 }
