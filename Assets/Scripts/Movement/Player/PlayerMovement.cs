@@ -34,11 +34,6 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
         curVelocity.x = velocity.x;
         curVelocity.z = velocity.z;
     }
-
-    public void Rotate(Vector2 look, float sensitivity)
-    {
-        transform.Rotate(0f, look.x *sensitivity, 0f);
-    }
     public void Jump(float jumpVelocity, float cooldown)
     {
         if (curJumpCooldown > 0f) return;

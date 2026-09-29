@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 using VContainer;
 
@@ -14,6 +15,7 @@ public class PlayerMovementController : MonoBehaviour
     TemporarySpeedModifier temporarySpeedModifier;
 
     [Inject] PlayerMovementConfig config;
+    [Inject] IReadOnlyEventBus eventBus;
 
     private void Awake()
     {
@@ -26,21 +28,27 @@ public class PlayerMovementController : MonoBehaviour
         movementState = new PlayerMovementState();
         temporarySpeedModifier = new TemporarySpeedModifier();
         speedCalculator = new SpeedCalculator(temporarySpeedModifier, config);
+        
+        eventBus.Subscribe<OnClimbEvent>(ToggleMovement);
     }
+    void ToggleMovement(OnClimbEvent climbEvent) => movementState.isMovementBlocked = climbEvent.isClimbing;
     private void FixedUpdate()
     {
         temporarySpeedModifier.Tick(Time.fixedDeltaTime);
         UpdateMovementState(); 
-        MovePlayer();
         camera.LookAround(input.lookAxis);
-        
-        if (movementState.isJumping)
+
+        if (!movementState.isMovementBlocked)
         {
-            movement.Jump(config.JumpVelocity, config.JumpCooldown);
+            MovePlayer();
+            if (movementState.isJumping)
+            {
+                movement.Jump(config.JumpVelocity, config.JumpCooldown);
+            }
+            movement.Tick(Time.fixedDeltaTime);
         }
-        
-        movement.Tick(Time.fixedDeltaTime);
     }
+    
 
     void MovePlayer()
     {

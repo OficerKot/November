@@ -1,3 +1,4 @@
+using Climbing;
 using Events;
 using Movement.Player;
 using UnityEngine;
@@ -6,9 +7,11 @@ using VContainer.Unity;
 
 public class GameLifeTimeScope : LifetimeScope
 {
+    [Header("Configuration")]
     [SerializeField] PlayerMovementConfig playerMovementConfig;
     [SerializeField] PlayerStatsConfig playerStatsConfig;
     [SerializeField] private CameraConfig cameraConfig;
+    [SerializeField] private ClimbConfig climbConfig;
     
     protected override void Configure(IContainerBuilder builder)
     {
@@ -24,5 +27,10 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PlayerMovementController>();
         builder.RegisterInstance(cameraConfig);
         builder.RegisterInstance(playerMovementConfig);
+        
+        builder.RegisterInstance(climbConfig);
+        builder.RegisterComponentInHierarchy<ClimbPointDetector>();
+        builder.RegisterComponentInHierarchy<HandMover>();
+        builder.RegisterComponentInHierarchy<HandsController>();
     }
 }

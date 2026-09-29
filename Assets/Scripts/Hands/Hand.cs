@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    private bool isActive;
+    private bool _isActive;
+    public bool IsActive => _isActive;
+    
     private IGrabable currentGrabable;
     private IHookable currentHookable;
+    public bool IsHooking => currentHookable != null;
+    private Vector3 startPos;
+    public Vector3 StartPost => startPos;
+
+    private void Awake()
+    {
+        startPos =  transform.localPosition;
+    }
 
     public void Toggle(bool isActive)
     {
-        if (isActive == this.isActive) return;
+        if (isActive == this._isActive) return;
         
         if(isActive) Activate();
         else Deactivate();
       
-        this.isActive =  isActive;
+        this._isActive =  isActive;
     }
     void Activate()
     {
