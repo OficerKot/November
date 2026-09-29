@@ -18,6 +18,7 @@ public class HandsController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         climbDetector = GetComponent<ClimbPointDetector>();
         handMover = GetComponent<HandMover>();
+        handMover.SetHands(leftHand.transform, rightHand.transform);
     }
 
     private void FixedUpdate()
@@ -25,8 +26,9 @@ public class HandsController : MonoBehaviour
         UpdateHand(rightHand, input.IsRightHandActive);
         UpdateHand(leftHand, input.IsLeftHandActive);
         
-        if(rightHand.IsActive) FindHookable(rightHand);
-        if(leftHand.IsActive) FindHookable(leftHand);
+        if(rightHand.IsActive) TryPerformHook(rightHand);
+        if(leftHand.IsActive) TryPerformHook(leftHand);
+        
     }
 
     void UpdateHand(Hand hand, bool isActive)
@@ -35,7 +37,6 @@ public class HandsController : MonoBehaviour
         if(!isActive)
         {
             ReleaseHand(hand);
-            handMover.MoveHandTo(hand.transform, hand.StartPost);
         }
     }
 
@@ -45,18 +46,19 @@ public class HandsController : MonoBehaviour
         {
             eventBus.Publish(new OnClimbEvent(false)); 
         }
+        handMover.PutHandBack(hand.transform);
         hand.Release();
     }
-    void FindHookable(Hand hand)
+
+    void TryPerformHook(Hand hand)
     {
-        IHookable climbable = climbDetector.FindClimbPoint();
-        if (climbable != null)
-        {
-            Vector3 targetLocalPosition = transform.InverseTransformPoint(climbable.GetGrabPosition());
-            handMover.MoveHandTo(hand.transform, targetLocalPosition);
-            hand.Hook(climbable);
-            eventBus.Publish(new OnClimbEvent(true));
-        }
+        IHookable hookable = climbDetector.FindClimbPoint();
+        if(hookable == null) return;
+        
+        Vector3 targetLocalPosition = transform.InverseTransformPoint(hookable.GetGrabPosition());
+        handMover.MoveHandTo(hand.transform, targetLocalPosition);
+        hand.Hook(hookable);
+        eventBus.Publish(new OnClimbEvent(true));
     }
 
 
