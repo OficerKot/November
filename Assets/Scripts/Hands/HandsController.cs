@@ -1,4 +1,3 @@
-using System;
 using Events;
 using Hands;
 using UnityEngine;
@@ -42,21 +41,23 @@ public class HandsController : MonoBehaviour
 
     void ReleaseHand(Hand hand)
     {
-        if (hand.IsHooking)
+        handMover.PutHandBack(hand.transform, transform);
+        hand.Release();
+        
+        if (!leftHand.IsHooking && !rightHand.IsHooking)
         {
             eventBus.Publish(new OnClimbEvent(false)); 
         }
-        handMover.PutHandBack(hand.transform);
-        hand.Release();
     }
 
     void TryPerformHook(Hand hand)
     {
+        if (hand.IsHooking) return;
+        
         IHookable hookable = climbDetector.FindClimbPoint();
         if(hookable == null) return;
         
-        Vector3 targetLocalPosition = transform.InverseTransformPoint(hookable.GetGrabPosition());
-        handMover.MoveHandTo(hand.transform, targetLocalPosition);
+        handMover.MoveHandTo(hand.transform, hookable.GetGrabPosition());
         hand.Hook(hookable);
         eventBus.Publish(new OnClimbEvent(true));
     }

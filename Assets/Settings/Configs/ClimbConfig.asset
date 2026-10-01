@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347cdae3c2974b2a8779059db438e5e6, type: 3}
   m_Name: ClimbConfig
   m_EditorClassIdentifier: Assembly-CSharp::Climbing.ClimbConfig
-  maxDetectionDistance: 1
+  maxDetectionDistance: 0.5
   hookSpeed: 5
