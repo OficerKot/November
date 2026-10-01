@@ -31,7 +31,12 @@ public class PlayerMovementController : MonoBehaviour
         
         eventBus.Subscribe<OnClimbEvent>(ToggleMovement);
     }
-    void ToggleMovement(OnClimbEvent climbEvent) => movementState.isMovementBlocked = climbEvent.isClimbing;
+
+    void ToggleMovement(OnClimbEvent climbEvent)
+    {
+        movementState.isMovementBlocked = climbEvent.isClimbing;
+        if(movementState.isMovementBlocked) movement.ClearVelocity();
+    }
     private void FixedUpdate()
     {
         temporarySpeedModifier.Tick(Time.fixedDeltaTime);

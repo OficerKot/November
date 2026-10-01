@@ -45,6 +45,11 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
         curJumpCooldown = cooldown;
     }
 
+    public void ClearVelocity()
+    {
+        curVelocity = Vector3.zero;
+    }
+
     public Vector3 GetVelocity() => curVelocity;
     public bool IsGrounded => controller.isGrounded;
 }
