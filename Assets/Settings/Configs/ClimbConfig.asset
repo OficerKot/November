@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Climbing.ClimbConfig
   maxDetectionDistance: 0.5
   hookSpeed: 5
+  maxHandStamina: 3
+  staminaRecoverPerSecond: 1
+  staminaDrainPerSecond: 1
+  minStaminaToHook: 1

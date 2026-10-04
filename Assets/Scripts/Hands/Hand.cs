@@ -1,4 +1,5 @@
 using System;
+using Climbing;
 using Hands;
 using UnityEngine;
 
@@ -6,16 +7,30 @@ public class Hand : MonoBehaviour
 {
     private bool _isActive;
     public bool IsActive => _isActive;
+    public bool IsHooking => currentHookable != null;
+    public bool IsFalling => handStamina.CurStamina <= 0;
+    public bool CanHook => handStamina.CurStamina > minStaminaToHook;
     
     private IGrabable currentGrabable;
     private IHookable currentHookable;
-    public bool IsHooking => currentHookable != null;
-    private Vector3 startPos;
-    public Vector3 StartPost => startPos;
+    private float minStaminaToHook;
+    private Stamina handStamina;
 
-    private void Awake()
+    public void Init(float defaultStamina, float minStaminaToHook)
     {
-        startPos =  transform.localPosition;
+        handStamina = new Stamina(defaultStamina);
+        this.minStaminaToHook = minStaminaToHook;
+        
+    }
+    public void RecoverStamina(float val, float deltaTime)
+    {
+        handStamina.Recover(val, deltaTime);
+    }
+
+    public void DrainStamina(float val, float deltaTime)
+    {
+        handStamina.Drain(val, deltaTime);
+        Debug.Log("Draining stamina. Cur stamina: " + handStamina.CurStamina);
     }
 
     public void Toggle(bool isActive)
@@ -41,8 +56,6 @@ public class Hand : MonoBehaviour
     {
         Release();
         currentGrabable = grabable;
-        
-
     }
 
     public void Hook(IHookable hookable)
