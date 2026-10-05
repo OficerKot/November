@@ -7,12 +7,12 @@ public class PlayerMovementController : MonoBehaviour
     PlayerInput input;
     PlayerMovement movement;
     PlayerMovementState movementState;
+    
     PlayerCrouching crouching;
     PlayerEnviropmentDetector enviropmentDetector;
-    PlayerCamera camera;
+    PlayerMovementStateMachine stateMachine;
 
     SpeedCalculator speedCalculator;
-    TemporarySpeedModifier temporarySpeedModifier;
 
     [Inject] PlayerMovementConfig config;
     [Inject] IReadOnlyEventBus eventBus;
@@ -23,25 +23,25 @@ public class PlayerMovementController : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         crouching = GetComponent<PlayerCrouching>();
         enviropmentDetector = GetComponent<PlayerEnviropmentDetector>();
-        camera = GetComponentInChildren<PlayerCamera>();
 
         movementState = new PlayerMovementState();
-        temporarySpeedModifier = new TemporarySpeedModifier();
-        speedCalculator = new SpeedCalculator(temporarySpeedModifier, config);
+        speedCalculator = new SpeedCalculator(config);
         
-        eventBus.Subscribe<OnClimbEvent>(ToggleMovement);
+        eventBus.Subscribe<OnClimbEvent>(OnClimbStateChanged);
     }
 
-    void ToggleMovement(OnClimbEvent climbEvent)
+    void OnClimbStateChanged(OnClimbEvent climbEvent)
     {
         movementState.isMovementBlocked = climbEvent.isClimbing;
-        if(movementState.isMovementBlocked) movement.ClearVelocity();
+        if(movementState.isMovementBlocked)
+        {
+            movementState.ResetMovementFlags();
+            movement.ClearVelocity();
+        }
     }
     private void FixedUpdate()
     {
-        temporarySpeedModifier.Tick(Time.fixedDeltaTime);
         UpdateMovementState(); 
-        camera.LookAround(input.lookAxis);
 
         if (!movementState.isMovementBlocked)
         {

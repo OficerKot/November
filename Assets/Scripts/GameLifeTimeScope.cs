@@ -32,5 +32,10 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<ClimbPointDetector>();
         builder.RegisterComponentInHierarchy<HandMover>();
         builder.RegisterComponentInHierarchy<HandsController>();
+        
+        builder.Register<DefaultState>(Lifetime.Scoped);
+        builder.Register<HookingState>(Lifetime.Scoped);
+        builder.Register<CrouchingState>(Lifetime.Scoped);
+        builder.Register<PlayerMovementStateMachine>(Lifetime.Scoped);
     }
 }

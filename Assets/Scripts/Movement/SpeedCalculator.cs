@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpeedCalculator
 {
-    TemporarySpeedModifier speedModifier;
+    TemporarySpeedModifier speedModifier = new TemporarySpeedModifier();
     PlayerMovementConfig config;
     Vector3 previousTargetDirection;
     float accumulatedAngle;
@@ -12,10 +12,14 @@ public class SpeedCalculator
         public float acceleration;
         public float brakeAcceleration;
     }
-    public SpeedCalculator(TemporarySpeedModifier speedModifier, PlayerMovementConfig config)
+    public SpeedCalculator( PlayerMovementConfig config)
     {
-        this.speedModifier = speedModifier;
         this.config = config;
+    }
+
+    public void Tick(float deltaTime)
+    {
+        speedModifier.Tick(deltaTime);
     }
     
     public float CalculateSpeed( 
