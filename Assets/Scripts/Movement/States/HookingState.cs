@@ -1,8 +1,14 @@
+using Events;
 using Movement.States;
 using UnityEngine;
 
+/// <summary>
+/// Состояние виса на зацепе. Стандартное управление заменяется на паркур.
+/// </summary>
 public class HookingState : IState
 {
+    private PlayerMovement movement;
+    private PlayerInput input;
     public void Tick(float deltaTime)
     {
         throw new System.NotImplementedException();
@@ -10,11 +16,12 @@ public class HookingState : IState
 
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        movement.ClearVelocity();
     }
 
     public void Exit()
     {
         throw new System.NotImplementedException();
     }
+    
 }

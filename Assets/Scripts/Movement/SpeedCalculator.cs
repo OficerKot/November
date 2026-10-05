@@ -2,21 +2,25 @@ using UnityEngine;
 
 public class SpeedCalculator
 {
-    TemporarySpeedModifier speedModifier = new TemporarySpeedModifier();
-    PlayerMovementConfig config;
-    Vector3 previousTargetDirection;
-    float accumulatedAngle;
-    struct MovementSpeedParameters
+    private readonly TemporarySpeedModifier speedModifier = new TemporarySpeedModifier();
+    private Vector3 previousTargetDirection;
+    private float accumulatedAngle;
+    public class MovementSpeedParameters
     {
         public float targetSpeed;
         public float acceleration;
         public float brakeAcceleration;
-    }
-    public SpeedCalculator( PlayerMovementConfig config)
-    {
-        this.config = config;
-    }
 
+        public MovementSpeedParameters(
+            float targetSpeed, 
+            float acceleration,
+            float brakeAcceleration)
+        {
+            this.targetSpeed = targetSpeed;
+            this.acceleration = acceleration;
+            this.brakeAcceleration = brakeAcceleration;
+        }
+    }
     public void Tick(float deltaTime)
     {
         speedModifier.Tick(deltaTime);
@@ -25,13 +29,11 @@ public class SpeedCalculator
     public float CalculateSpeed( 
         Vector3 curVelocity,
         Vector3 targetDirection,
-        PlayerMovementState state)
+        MovementSpeedParameters speedParameters)
     {
         Vector3 horizontalVelocity = curVelocity;
         horizontalVelocity.y = 0f;
         float currentSpeed = horizontalVelocity.magnitude;
-
-        MovementSpeedParameters speedParameters = SetMovementParameters(state);
 
         speedParameters.targetSpeed *= CalculateAngleMultiplier(targetDirection);
         speedParameters.targetSpeed *= speedModifier.CurMultiplier;
@@ -42,28 +44,7 @@ public class SpeedCalculator
             speedParameters.acceleration,
             speedParameters.brakeAcceleration);
     }
-
-    MovementSpeedParameters SetMovementParameters(PlayerMovementState state)
-    {
-        MovementSpeedParameters parameters = new();
-
-        parameters.targetSpeed = config.WalkSpeed;
-        parameters.acceleration = config.WalkAcceleration;
-        parameters.brakeAcceleration = config.WalkBreakAcceleration;
-
-        if (state.isRunning)
-        {
-            parameters.targetSpeed *= config.RunSpeedMultiplier;
-            parameters.acceleration = config.RunAcceleration;
-            parameters.brakeAcceleration *= config.RunBreakAcceleration;
-        }
-        if (state.isCroucning)
-        {
-            parameters.targetSpeed *= config.CrouchSpeedMultiplier;
-        }
-
-        return parameters;
-    }
+    
     float CalculateAngleMultiplier(Vector3 targetDirection)
     {
         if (targetDirection.sqrMagnitude <= 0.001f)
@@ -106,11 +87,10 @@ public class SpeedCalculator
             ? brakeAcceleration
             : acceleration;
 
-
             return Mathf.MoveTowards(
                 curSpeed,
                 targetSpeed,
-                usedAcceleration * Time.fixedDeltaTime // потом лучше вынести в параметр
+                usedAcceleration * Time.fixedDeltaTime // потом лучше вынести в параметр 
             );
         }
     }

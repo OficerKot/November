@@ -1,35 +1,43 @@
 using Movement.States;
 using UnityEngine;
 
+/// <summary>
+/// Стандартное состояние передвижения игрока (бег/ходьба). 
+/// </summary>
 public class DefaultState : IState
 {   
     private readonly PlayerMovementConfig config;
     private readonly PlayerInput input;
+    
     private readonly PlayerMovement movement;
-    private readonly PlayerMovementState movementState;
     private readonly Transform playerTransform;
     private readonly SpeedCalculator speedCalculator;
+    
+    private readonly IStateSwitcher stateSwitcher;
+    private bool isRunning;
+    private bool isJumping;
 
     public DefaultState(
         PlayerMovementConfig config,
         PlayerInput input,
         PlayerMovement movement,
-        PlayerMovementState movementState,
         SpeedCalculator speedCalculator,
-        Transform playerTransform)
+        Transform playerTransform,
+        IStateSwitcher stateSwitcher)
     {
         this.config = config;
         this.input = input;
         this.movement = movement;
-        this.movementState = movementState;
         this.speedCalculator = speedCalculator;
         this.playerTransform = playerTransform;
+        this.stateSwitcher = stateSwitcher;
     }
     
     public void Tick(float deltaTime)
     {
+        UpdateMovementState();
         Move();
-        if (movementState.isJumping)
+        if(isJumping)
         {
             movement.Jump(config.JumpVelocity, config.JumpCooldown);
         }
@@ -50,8 +58,8 @@ public class DefaultState : IState
 
     private void ClearStates()
     {
-        movementState.isRunning = false;
-        movementState.isJumping = false;
+        isRunning = false;
+        isJumping = false;
     }
     private void Move()
     {
@@ -60,18 +68,42 @@ public class DefaultState : IState
         float speed = speedCalculator.CalculateSpeed(
             movement.GetVelocity(),
             targetDirection,
-            movementState);
+            GetSpeedParameters()
+            );
     
         Vector3 velocity = targetDirection* speed;
         movement.Move(velocity);
     }
     
-    public Vector3 GetTargetDirection(Vector2 input)
+    private Vector3 GetTargetDirection(Vector2 input)
     {
         Vector3 direction =
             playerTransform.right * input.x +
             playerTransform.forward * input.y;
 
         return direction.normalized;
+    }
+
+    private void UpdateMovementState()
+    {
+        isJumping = (input.IsJumpHeld && movement.IsGrounded);
+        
+        if (input.CheckRun())
+        {
+            isRunning = !isRunning;
+        }
+        isRunning = (input.moveAxis.y > 0);
+    }
+
+    private SpeedCalculator.MovementSpeedParameters GetSpeedParameters()
+    {
+        float targetSpeed = isRunning? config.WalkSpeed * config.RunSpeedMultiplier : config.WalkSpeed;
+        float acceleration = isRunning? config.RunAcceleration : config.WalkAcceleration;
+        float brakeAcceleration = isRunning ? config.RunBreakAcceleration : config.WalkBreakAcceleration;
+        
+        return new SpeedCalculator.MovementSpeedParameters(
+            targetSpeed: targetSpeed,
+            acceleration: acceleration,
+            brakeAcceleration: brakeAcceleration);
     }
 }
