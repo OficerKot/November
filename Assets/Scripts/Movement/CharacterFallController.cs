@@ -36,6 +36,8 @@ public class CharacterFallController : MonoBehaviour
             isFalling = false;
 
             float distance = characterFall.GetFallDistance(transform.position.y);
+            if (distance <= 0) return;
+            
             CheckFallDamage(distance);
         }
     }
