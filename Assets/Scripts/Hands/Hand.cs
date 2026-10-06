@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    private bool _isActive;
+    private bool _isActive = false;
     public bool IsActive => _isActive;
     public bool IsHooking => currentHookable != null;
     public bool IsFalling => handStamina.CurStamina <= 0;

@@ -58,7 +58,7 @@ public class CrouchingState : IState
     {
         if (pInput.IsJumpHeld && movement.IsGrounded)
         {
-            movement.Jump(config.JumpVelocity, config.JumpCooldown);
+            movement.Jump(config.JumpForce, config.JumpCooldown);
         }
     }
     private void Move()

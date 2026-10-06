@@ -20,7 +20,7 @@ MonoBehaviour:
   runSpeedMultiplier: 1.8
   runAcceleration: 1.5
   runBrakeAcceleration: 20
-  jumpVelocity: 5
+  jumpForce: 5
   jumpCooldown: 0.5
   crouchPlayerHeight: 0.9
   crouchSpeedMultiplier: 0.5

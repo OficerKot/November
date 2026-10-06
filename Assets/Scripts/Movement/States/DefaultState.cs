@@ -25,7 +25,7 @@ public class DefaultState : IState
         this.config = config;
         this.input = input;
         this.movement = movement;
-        this.speedCalculator = speedCalculator;
+        this.speedCalculator = speedCalculator; 
     }
     
     public Type Tick(float deltaTime)
@@ -34,11 +34,12 @@ public class DefaultState : IState
         {
             return typeof(CrouchingState);
         }
-        UpdateMovementState();
+        
+        CheckMovements();
         Move();
         if(isJumping)
         {
-            movement.Jump(config.JumpVelocity, config.JumpCooldown);
+            movement.Jump(config.JumpForce, config.JumpCooldown);
         }
         
         movement.Tick(deltaTime);
@@ -48,13 +49,13 @@ public class DefaultState : IState
     }
 
     public void Enter()
-    {
+    { 
         ClearStates();
     }
 
     public void Exit()
     {
-        ClearStates();
+       ClearStates();
     }
 
     private void ClearStates()
@@ -85,16 +86,21 @@ public class DefaultState : IState
         return direction.normalized;
     }
 
-    private void UpdateMovementState()
+    private void CheckMovements()
     {
         isJumping = (input.IsJumpHeld && movement.IsGrounded);
-        if (input.CheckRun())
-        {
-            isRunning = !isRunning;
-        }
-        isRunning = (isRunning && input.moveAxis.y > 0);
+        CheckRun();
     }
 
+    private void CheckRun()
+    {
+        if (input.moveAxis.y <= 0)
+        {
+            isRunning = false;
+            return;
+        }
+        if (input.CheckRun()) isRunning = !isRunning;
+    }
     private SpeedCalculator.MovementSpeedParameters GetSpeedParameters()
     {
         float targetSpeed = isRunning? config.WalkSpeed * config.RunSpeedMultiplier : config.WalkSpeed;

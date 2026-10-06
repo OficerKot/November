@@ -637,6 +637,7 @@ GameObject:
   - component: {fileID: 346453978}
   - component: {fileID: 346453979}
   - component: {fileID: 346453980}
+  - component: {fileID: 346453981}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -891,6 +892,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf9354e6f7c441459dd3522ed939c33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraController
+--- !u!114 &346453981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346453961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033fcb4306194b69bee12da6df39026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Movement.HangingMovement
 --- !u!1 &366837311
 GameObject:
   m_ObjectHideFlags: 0

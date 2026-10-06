@@ -13,6 +13,10 @@ namespace Climbing
         [SerializeField] private float staminaRecoverPerSecond = 1f;
         [SerializeField] private float staminaDrainPerSecond = 1f;
         [SerializeField] private float minStaminaToHook = 1f;
+        [Header("Movement")]
+        [SerializeField] private float jumpForce;
+
+        [SerializeField] private float jumpCooldown;
 
         public float MaxDetectionDistance => maxDetectionDistance;
         public float HookSpeed => hookSpeed;
@@ -20,5 +24,7 @@ namespace Climbing
         public float StaminaRecoverPerSecond => staminaRecoverPerSecond;
         public float StaminaDrainPerSecond => staminaDrainPerSecond;
         public float MinStaminaToHook => minStaminaToHook;
+        public float JumpForce => jumpForce;
+        public float JumpCooldown => jumpCooldown;
     }
 }

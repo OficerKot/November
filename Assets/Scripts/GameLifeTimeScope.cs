@@ -1,5 +1,6 @@
 using Climbing;
 using Events;
+using Movement;
 using Movement.Player;
 using UnityEngine;
 using VContainer;
@@ -34,7 +35,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<HandsController>();
         
         builder.Register<DefaultState>(Lifetime.Scoped);
-        builder.Register<HookingState>(Lifetime.Scoped);
+        builder.Register<HangingState>(Lifetime.Scoped);
         builder.Register<CrouchingState>(Lifetime.Scoped);
   
         builder.RegisterComponentInHierarchy<PlayerInput>();
@@ -43,6 +44,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PlayerEnviropmentDetector>()
             .As<IHeadBlockDetector>()
             .As<IGroundDetector>();
+        builder.RegisterComponentInHierarchy<HangingMovement>();
         
         builder.Register<TemporarySpeedModifier>(Lifetime.Scoped);
         builder.Register<SpeedCalculator>(Lifetime.Scoped);

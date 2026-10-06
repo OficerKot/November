@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Movement.States;
+using UnityEngine;
 
 public class PlayerMovementStateMachine : IStateSwitcher
 {
@@ -11,11 +12,11 @@ public class PlayerMovementStateMachine : IStateSwitcher
     public PlayerMovementStateMachine(
         DefaultState defaultState,
         CrouchingState crouchingState,
-        HookingState hookingState)
+        HangingState hangingState)
     {
         _states[typeof(DefaultState)] = defaultState;
         _states[typeof(CrouchingState)] = crouchingState;
-        _states[typeof(HookingState)] = hookingState;
+        _states[typeof(HangingState)] = hangingState;
         
         SwitchState(typeof(DefaultState));
     }
@@ -34,6 +35,8 @@ public class PlayerMovementStateMachine : IStateSwitcher
             throw new InvalidOperationException(
                 $"State {stateType.Name} is not registered.");
         }
+
+        Debug.Log("Switching to " + stateType.Name);
         
         _curMovementState?.Exit();
         _curMovementState = newState;
