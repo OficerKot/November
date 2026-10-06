@@ -8,12 +8,12 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Awake()
     {
-        camera = GetComponent<PlayerCamera>();
+        camera = GetComponentInChildren<PlayerCamera>();
         input = GetComponent<PlayerInput>();
     }
 
     private void FixedUpdate()
     {
-        camera.LookAround(input.lookAxis);
+        camera.LookAround(input.lookAxis, transform);
     }
 }

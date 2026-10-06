@@ -36,6 +36,20 @@ public class GameLifeTimeScope : LifetimeScope
         builder.Register<DefaultState>(Lifetime.Scoped);
         builder.Register<HookingState>(Lifetime.Scoped);
         builder.Register<CrouchingState>(Lifetime.Scoped);
-        builder.Register<PlayerMovementStateMachine>(Lifetime.Scoped);
+  
+        builder.RegisterComponentInHierarchy<PlayerInput>();
+        builder.RegisterComponentInHierarchy<PlayerMovement>();
+        builder.RegisterComponentInHierarchy<PlayerCrouching>();
+        builder.RegisterComponentInHierarchy<PlayerEnviropmentDetector>()
+            .As<IHeadBlockDetector>()
+            .As<IGroundDetector>();
+        
+        builder.Register<TemporarySpeedModifier>(Lifetime.Scoped);
+        builder.Register<SpeedCalculator>(Lifetime.Scoped);
+ 
+        
+        builder.Register<PlayerMovementStateMachine>(Lifetime.Scoped)
+            .AsSelf()
+            .As<IStateSwitcher>();
     }
 }

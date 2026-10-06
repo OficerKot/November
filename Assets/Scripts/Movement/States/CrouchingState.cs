@@ -1,3 +1,4 @@
+using System;
 using Movement.States;
 using UnityEngine;
 
@@ -7,9 +8,6 @@ using UnityEngine;
 public class CrouchingState : IState
 {
     private readonly IHeadBlockDetector headBlockDetector;
-    private readonly IStateSwitcher stateSwitcher;
-    private readonly Transform playerTransform;
-    private readonly DefaultState defaultState;
     private readonly PlayerCrouching crouching;
     private readonly PlayerInput pInput;
     private readonly PlayerMovement movement;
@@ -17,9 +15,6 @@ public class CrouchingState : IState
     private readonly PlayerMovementConfig config;
     public CrouchingState(
         IHeadBlockDetector headBlockDetector,
-        IStateSwitcher stateSwitcher,
-        Transform playerTransform,
-        DefaultState defaultState,
         PlayerCrouching crouching,
         PlayerInput pInput,
         PlayerMovement movement,
@@ -27,9 +22,6 @@ public class CrouchingState : IState
         PlayerMovementConfig config)
     {
         this.headBlockDetector = headBlockDetector;
-        this.stateSwitcher = stateSwitcher;
-        this.playerTransform = playerTransform;
-        this.defaultState = defaultState;
         this.crouching = crouching;
         this.pInput = pInput;
         this.movement = movement;
@@ -37,28 +29,33 @@ public class CrouchingState : IState
         this.config = config;
     }
     
-    public void Tick(float deltaTime)
+    public Type Tick(float deltaTime)
     {
-        UpdateStates();
+        if (pInput.CheckCrouch() && !headBlockDetector.CheckHeadBlock())
+        {
+            return typeof(DefaultState);
+        }
+        
+        CheckJump();
         Move();
+        
+        movement.Tick(deltaTime);
+        speedCalculator.Tick(deltaTime);
+        return null;
     }
 
     public void Enter()
     {
-        crouching.Toggle(config.DefaultPlayerHeight, 0);
+        crouching.Toggle(config.CrouchPlayerHeight, 0.5f);
     }
 
     public void Exit()
     {
-        crouching.Toggle(config.CrouchPlayerHeight, 0.5f);
+        crouching.Toggle(config.DefaultPlayerHeight, 0);
     }
 
-    private void UpdateStates()
+    private void CheckJump()
     {
-        if (pInput.CheckCrouch() && !headBlockDetector.CheckHeadBlock())
-        { 
-            stateSwitcher.SwitchState(defaultState);
-        }
         if (pInput.IsJumpHeld && movement.IsGrounded)
         {
             movement.Jump(config.JumpVelocity, config.JumpCooldown);
@@ -80,8 +77,8 @@ public class CrouchingState : IState
     private Vector3 GetTargetDirection(Vector2 input)
     {
         Vector3 direction =
-            playerTransform.right * input.x +
-            playerTransform.forward * input.y;
+            movement.transform.right * input.x +
+            movement.transform.forward * input.y;
 
         return direction.normalized;
     }

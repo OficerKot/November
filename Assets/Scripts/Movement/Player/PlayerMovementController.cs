@@ -1,8 +1,10 @@
 using UnityEngine;
-public class PlayerMovementController : MonoBehaviour 
+using VContainer;
+
+public class PlayerMovementController : MonoBehaviour
 {
-    PlayerMovementStateMachine stateMachine = new ();
-    
+    [Inject] private PlayerMovementStateMachine stateMachine;
+
     private void FixedUpdate()
     {
         stateMachine.Tick(Time.fixedDeltaTime);

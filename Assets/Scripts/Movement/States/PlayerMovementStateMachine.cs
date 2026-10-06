@@ -1,27 +1,47 @@
+using System;
+using System.Collections.Generic;
 using Movement.States;
-using UnityEngine;
 
 public class PlayerMovementStateMachine : IStateSwitcher
 {
     private IState _curMovementState;
-    public IState CurMovementState => _curMovementState;
     
+    private Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
+
+    public PlayerMovementStateMachine(
+        DefaultState defaultState,
+        CrouchingState crouchingState,
+        HookingState hookingState)
+    {
+        _states[typeof(DefaultState)] = defaultState;
+        _states[typeof(CrouchingState)] = crouchingState;
+        _states[typeof(HookingState)] = hookingState;
+        
+        SwitchState(typeof(DefaultState));
+    }
     public void Tick(float deltaTime)
     {
-        _curMovementState.Tick(deltaTime);
-    }
-    public void SwitchState(IState state)
-    {
-        if (_curMovementState != null)
+        Type requestedState = _curMovementState.Tick(deltaTime);
+        if (requestedState != null)
         {
-            _curMovementState.Exit();
+            SwitchState(requestedState);
         }
-        _curMovementState = state;
+    }
+    public void SwitchState(Type stateType)
+    {
+        if (!_states.TryGetValue(stateType, out IState newState))
+        {
+            throw new InvalidOperationException(
+                $"State {stateType.Name} is not registered.");
+        }
+        
+        _curMovementState?.Exit();
+        _curMovementState = newState;
         _curMovementState.Enter();
     }
 }
 
 public interface IStateSwitcher
 {
-    public void SwitchState(IState state);
+    public void SwitchState(Type state);
 }

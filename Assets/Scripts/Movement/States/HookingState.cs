@@ -1,3 +1,4 @@
+using System;
 using Events;
 using Movement.States;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class HookingState : IState
 {
     private PlayerMovement movement;
     private PlayerInput input;
-    public void Tick(float deltaTime)
+    public Type Tick(float deltaTime)
     {
         throw new System.NotImplementedException();
     }

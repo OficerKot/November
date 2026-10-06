@@ -1,3 +1,4 @@
+using System;
 using Movement.States;
 using UnityEngine;
 
@@ -10,10 +11,8 @@ public class DefaultState : IState
     private readonly PlayerInput input;
     
     private readonly PlayerMovement movement;
-    private readonly Transform playerTransform;
     private readonly SpeedCalculator speedCalculator;
     
-    private readonly IStateSwitcher stateSwitcher;
     private bool isRunning;
     private bool isJumping;
 
@@ -21,20 +20,20 @@ public class DefaultState : IState
         PlayerMovementConfig config,
         PlayerInput input,
         PlayerMovement movement,
-        SpeedCalculator speedCalculator,
-        Transform playerTransform,
-        IStateSwitcher stateSwitcher)
+        SpeedCalculator speedCalculator)
     {
         this.config = config;
         this.input = input;
         this.movement = movement;
         this.speedCalculator = speedCalculator;
-        this.playerTransform = playerTransform;
-        this.stateSwitcher = stateSwitcher;
     }
     
-    public void Tick(float deltaTime)
+    public Type Tick(float deltaTime)
     {
+        if (input.CheckCrouch())
+        {
+            return typeof(CrouchingState);
+        }
         UpdateMovementState();
         Move();
         if(isJumping)
@@ -44,6 +43,8 @@ public class DefaultState : IState
         
         movement.Tick(deltaTime);
         speedCalculator.Tick(deltaTime);
+        
+        return null;
     }
 
     public void Enter()
@@ -78,8 +79,8 @@ public class DefaultState : IState
     private Vector3 GetTargetDirection(Vector2 input)
     {
         Vector3 direction =
-            playerTransform.right * input.x +
-            playerTransform.forward * input.y;
+            movement.transform.right * input.x +
+            movement.transform.forward * input.y;
 
         return direction.normalized;
     }
@@ -87,12 +88,11 @@ public class DefaultState : IState
     private void UpdateMovementState()
     {
         isJumping = (input.IsJumpHeld && movement.IsGrounded);
-        
         if (input.CheckRun())
         {
             isRunning = !isRunning;
         }
-        isRunning = (input.moveAxis.y > 0);
+        isRunning = (isRunning && input.moveAxis.y > 0);
     }
 
     private SpeedCalculator.MovementSpeedParameters GetSpeedParameters()
