@@ -15,11 +15,14 @@ public class PlayerMovementConfig : ScriptableObject
     [SerializeField] private float walkSpeed;
     [SerializeField] private float walkAcceleration;
     [SerializeField] private float walkBrakeAcceleration;
+    [SerializeField] private float walkMinSpeed;
 
     [Header("Running")]
     [SerializeField] private float runSpeedMultiplier;
     [SerializeField] private float runAcceleration;
     [SerializeField] private float runBrakeAcceleration;
+    [SerializeField] private float runMinSpeed;
+
 
     [Header("Jumping")]
     [SerializeField] private float jumpForce;
@@ -46,4 +49,7 @@ public class PlayerMovementConfig : ScriptableObject
     public float CrouchSpeedMultiplier => crouchSpeedMultiplier;
 
     public float JumpCooldown => jumpCooldown;
+
+    public float WalkMinSpeed => walkMinSpeed;
+    public float RunMinSpeed => runMinSpeed;
 }

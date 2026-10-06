@@ -72,7 +72,8 @@ public class DefaultState : IState
             targetDirection,
             GetSpeedParameters()
             );
-    
+
+        Debug.Log("Cur speed: " + speed);
         Vector3 velocity = targetDirection* speed;
         movement.Move(velocity);
     }
@@ -106,10 +107,12 @@ public class DefaultState : IState
         float targetSpeed = isRunning? config.WalkSpeed * config.RunSpeedMultiplier : config.WalkSpeed;
         float acceleration = isRunning? config.RunAcceleration : config.WalkAcceleration;
         float brakeAcceleration = isRunning ? config.RunBreakAcceleration : config.WalkBreakAcceleration;
+        float minTurningSpeed = isRunning ? config.RunMinSpeed : config.WalkMinSpeed;
         
         return new SpeedCalculator.MovementSpeedParameters(
             targetSpeed: targetSpeed,
             acceleration: acceleration,
-            brakeAcceleration: brakeAcceleration);
+            brakeAcceleration: brakeAcceleration,
+            minTurningSpeed);
     }
 }

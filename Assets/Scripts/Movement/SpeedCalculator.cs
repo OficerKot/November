@@ -10,15 +10,18 @@ public class SpeedCalculator
         public float targetSpeed;
         public float acceleration;
         public float brakeAcceleration;
+        public float minSpeed;
 
         public MovementSpeedParameters(
             float targetSpeed, 
             float acceleration,
-            float brakeAcceleration)
+            float brakeAcceleration,
+            float minSpeed)
         {
             this.targetSpeed = targetSpeed;
             this.acceleration = acceleration;
             this.brakeAcceleration = brakeAcceleration;
+            this.minSpeed = minSpeed;
         }
     }
     public void Tick(float deltaTime)
@@ -38,11 +41,13 @@ public class SpeedCalculator
         speedParameters.targetSpeed *= CalculateAngleMultiplier(targetDirection);
         speedParameters.targetSpeed *= speedModifier.CurMultiplier;
 
-        return CalculateAcceleration(
-            currentSpeed,
-            speedParameters.targetSpeed,
-            speedParameters.acceleration,
-            speedParameters.brakeAcceleration);
+        return Mathf.Max(
+            CalculateAcceleration(
+                currentSpeed,
+                speedParameters.targetSpeed,
+                speedParameters.acceleration,
+                speedParameters.brakeAcceleration),
+            speedParameters.minSpeed);
     }
     
     float CalculateAngleMultiplier(Vector3 targetDirection)

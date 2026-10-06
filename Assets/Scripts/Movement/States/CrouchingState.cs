@@ -88,7 +88,8 @@ public class CrouchingState : IState
         return new SpeedCalculator.MovementSpeedParameters(
             targetSpeed: (config.WalkSpeed * config.CrouchSpeedMultiplier),
             acceleration: config.WalkAcceleration,
-            brakeAcceleration: config.WalkBreakAcceleration);
+            brakeAcceleration: config.WalkBreakAcceleration,
+            minSpeed: config.WalkMinSpeed);
     }
     
 }
