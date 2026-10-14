@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6529359646602424026}
   - component: {fileID: 3695517189404574926}
   - component: {fileID: 7709785209707461751}
-  - component: {fileID: 7019964973283523170}
   m_Layer: 0
   m_Name: InnerWall 1x1
   m_TagString: Untagged
@@ -41,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5506397525714179399}
-  m_Mesh: {fileID: -7571775135282613170, guid: f196bceb3dc8ec04ea10c72f4b815e5d, type: 3}
+  m_Mesh: {fileID: -7571775135282613170, guid: 2b7d542ec5f84f745b5d5ea3ff917678, type: 3}
 --- !u!23 &7709785209707461751
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: f196bceb3dc8ec04ea10c72f4b815e5d, type: 3}
+  - {fileID: -876546973899608171, guid: 2b7d542ec5f84f745b5d5ea3ff917678, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,24 +90,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7019964973283523170
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5506397525714179399}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.010000002, y: 0.009999998, z: 0.023688646}
-  m_Center: {x: -0.055, y: 0.004999999, z: 0.009999997}
