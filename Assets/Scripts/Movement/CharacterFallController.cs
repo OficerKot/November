@@ -1,11 +1,12 @@
 using UnityEngine;
+using VContainer;
 
 public class CharacterFallController : MonoBehaviour
 {
     [SerializeField] FallSettings fallSettings;
+    [Inject] private IStateSwitcher stateSwitcher;
+    FallVelocityTracker fallVelocityTracker;
     
-    CharacterFall characterFall;
-
     IGroundDetector detector;
     IVelocityProvider velocityProvider;
     IDamageable damageable;
@@ -14,8 +15,7 @@ public class CharacterFallController : MonoBehaviour
 
     private void Awake()
     {
-        characterFall = new CharacterFall();
-
+        fallVelocityTracker = new FallVelocityTracker();
         detector = GetComponent<IGroundDetector>();
         velocityProvider = GetComponent<IVelocityProvider>();
         damageable = GetComponent<IDamageable>();
@@ -23,33 +23,41 @@ public class CharacterFallController : MonoBehaviour
     private void FixedUpdate()
     {
         bool isGrounded = detector.CheckGround();
-        float verticalVelocity = velocityProvider.GetVelocity().y;
+        Vector3 verticalVelocity = velocityProvider.GetVelocity();
 
-        if (!isGrounded && !isFalling && verticalVelocity < fallSettings.MinFallVelocity)
+        if (isFalling)
+        {
+            if (verticalVelocity.y < 0f)
+            {
+                fallVelocityTracker.UpdateVelocity(verticalVelocity);
+            }
+        }
+        if (!isGrounded && !isFalling && verticalVelocity.y < fallSettings.MinFallVelocity)
         {
             isFalling = true;
-            characterFall.StartFalling(transform.position.y);
         }
-
-        if (isGrounded && isFalling)
+        if (isGrounded && isFalling && verticalVelocity.y >= 0f)
         {
-            isFalling = false;
-
-            float distance = characterFall.GetFallDistance(transform.position.y);
-            if (distance <= 0) return;
-            
-            CheckFallDamage(distance);
+            StopFall();
         }
     }
+    
 
-    void CheckFallDamage(float fallDistance)
+    private void StopFall()
     {
-        if (fallDistance > fallSettings.SafeFallDistance)
-        {
-            float diff = fallDistance - fallSettings.SafeFallDistance;
-            Debug.Log("Distance: " + fallDistance + ", damage: " + diff * fallSettings.DamagePerMeter);
-            damageable.TakeDamage(diff * fallSettings.DamagePerMeter);
-        }
-        else Debug.Log("Fell from a safe height: " + fallDistance );
+        isFalling = false;
+        CheckFallDamage(fallVelocityTracker.FallingVelocity);
     }
+    private void CheckFallDamage(Vector3 fallVelocity)
+    {
+        float fallSpeed = Mathf.Max(0f, -fallVelocity.y);
+        if (fallSpeed > fallSettings.SafeFallSpeed)
+        {
+            float diff = fallSpeed - fallSettings.SafeFallSpeed;
+            damageable.TakeDamage(diff * fallSettings.DamageMultipler);
+            Debug.Log("Speed: " + fallSpeed + ", damage: " + diff * fallSettings.DamageMultipler);
+        }
+        else Debug.Log("Fell with a safe speed: " + fallSpeed );
+    }
+    
 }

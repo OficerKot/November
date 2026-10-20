@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
     private CharacterController controller;
     
     [SerializeField] float gravity = -20f;
-    [SerializeField] float groundStick = -2f;
     
     private Vector3 curVelocity;
     float curJumpCooldown = 0;
@@ -23,7 +22,7 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
         if (curJumpCooldown > 0f) curJumpCooldown -= deltaTime;
 
         if (controller.isGrounded && curVelocity.y < 0f)
-            curVelocity.y = groundStick;
+            curVelocity.y = 0f;
         else
             curVelocity.y += gravity * deltaTime;
 

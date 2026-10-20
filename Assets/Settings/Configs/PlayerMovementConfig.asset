@@ -17,10 +17,13 @@ MonoBehaviour:
   walkSpeed: 1.2
   walkAcceleration: 5
   walkBrakeAcceleration: 3
+  walkMinSpeed: 0.1
   runSpeedMultiplier: 1.8
   runAcceleration: 1.5
   runBrakeAcceleration: 20
-  jumpForce: 5
+  runMinSpeed: 0.2
+  jumpDefaultForce: 5
   jumpCooldown: 0.5
-  crouchPlayerHeight: 0.9
+  crouchPlayerHeight: 0.6
   crouchSpeedMultiplier: 0.5
+  crouchJumpForce: 4

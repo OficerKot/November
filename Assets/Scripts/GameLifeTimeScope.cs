@@ -41,6 +41,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PlayerInput>();
         builder.RegisterComponentInHierarchy<PlayerMovement>();
         builder.RegisterComponentInHierarchy<PlayerCrouching>();
+        builder.RegisterComponentInHierarchy<CharacterFallController>();
         builder.RegisterComponentInHierarchy<PlayerEnviropmentDetector>()
             .As<IHeadBlockDetector>()
             .As<IGroundDetector>();

@@ -39,7 +39,7 @@ public class DefaultState : IState
         Move();
         if(isJumping)
         {
-            movement.Jump(config.JumpForce, config.JumpCooldown);
+            movement.Jump(config.JumpDefaultForce, config.JumpCooldown);
         }
         
         movement.Tick(deltaTime);
@@ -73,7 +73,6 @@ public class DefaultState : IState
             GetSpeedParameters()
             );
 
-        Debug.Log("Cur speed: " + speed);
         Vector3 velocity = targetDirection* speed;
         movement.Move(velocity);
     }
