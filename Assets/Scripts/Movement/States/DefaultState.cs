@@ -9,7 +9,7 @@ public class DefaultState : IState
 {   
     private readonly PlayerMovementConfig config;
     private readonly PlayerInput input;
-    
+    private readonly IHeadBlockDetector headBlockDetector;
     private readonly PlayerMovement movement;
     private readonly SpeedCalculator speedCalculator;
     
@@ -19,11 +19,13 @@ public class DefaultState : IState
     public DefaultState(
         PlayerMovementConfig config,
         PlayerInput input,
+        IHeadBlockDetector headBlockDetector,
         PlayerMovement movement,
         SpeedCalculator speedCalculator)
     {
         this.config = config;
         this.input = input;
+        this.headBlockDetector = headBlockDetector;
         this.movement = movement;
         this.speedCalculator = speedCalculator; 
     }
@@ -88,7 +90,7 @@ public class DefaultState : IState
 
     private void CheckMovements()
     {
-        isJumping = (input.IsJumpHeld && movement.IsGrounded);
+        isJumping = (input.IsJumpHeld && movement.IsGrounded && !headBlockDetector.CheckHeadBlock());
         CheckRun();
     }
 

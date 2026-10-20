@@ -26,7 +26,13 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
         else
             curVelocity.y += gravity * deltaTime;
 
-        controller.Move(curVelocity * deltaTime);
+        CollisionFlags flags = controller.Move(curVelocity * deltaTime);
+        
+        //Проверка столкновения с потолком
+        if ((flags & CollisionFlags.Above) != 0 && curVelocity.y > 0f)
+        {
+            curVelocity.y = 0f;
+        }
     }
     public void Move(Vector3 velocity)
     {

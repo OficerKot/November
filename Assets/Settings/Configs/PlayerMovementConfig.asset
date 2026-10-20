@@ -24,6 +24,6 @@ MonoBehaviour:
   runMinSpeed: 0.2
   jumpDefaultForce: 5
   jumpCooldown: 0.5
-  crouchPlayerHeight: 0.6
+  crouchPlayerHeight: 0.9
   crouchSpeedMultiplier: 0.5
   crouchJumpForce: 4

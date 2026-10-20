@@ -225,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 113761710}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.978, y: -0.111, z: 3.72}
+  m_LocalPosition: {x: 0.978, y: -0.104, z: 3.72}
   m_LocalScale: {x: 0.9106918, y: 1.1617349, z: 0.16050449}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -748,7 +748,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   gravity: -13
-  groundStick: -2
 --- !u!114 &346453969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,9 +837,9 @@ CharacterController:
   m_Height: 1.55
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.1
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &346453977
 MonoBehaviour:
