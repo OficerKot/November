@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CameraConfig
   m_EditorClassIdentifier: Assembly-CSharp::Movement.Player.CameraConfig
   mouseSensitivity: 0.2
-  maxVerticalRotation: 90
-  minVerticalRotation: -90
+  maxVerticalRotation: 80
+  minVerticalRotation: -80

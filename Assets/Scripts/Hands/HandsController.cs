@@ -10,7 +10,7 @@ public class HandsController : MonoBehaviour
     private ClimbPointDetector climbDetector;
     private HandMover handMover;
     [SerializeField] Hand leftHand, rightHand;
-    [Inject] private IEventBus eventBus;
+    [Inject] private IStateSwitcher stateSwitcher;
     [Inject] private ClimbConfig config;
     
 
@@ -23,6 +23,9 @@ public class HandsController : MonoBehaviour
         handMover.SetHands(leftHand.transform, rightHand.transform);
         leftHand.Init(config.MaxHandStamina, config.MinStaminaToHook);
         rightHand.Init(config.MaxHandStamina, config.MinStaminaToHook);
+        
+        handMover.PutHandBack(leftHand.transform, transform);
+        handMover.PutHandBack(rightHand.transform, transform);
     }
 
     private void FixedUpdate()
@@ -41,7 +44,6 @@ public class HandsController : MonoBehaviour
 
         UpdateHandStamina(rightHand);
         UpdateHandStamina(leftHand);
-        
     }
     
     void UpdateHandStamina(Hand hand)
@@ -49,7 +51,7 @@ public class HandsController : MonoBehaviour
         if (hand.IsHooking)
         {
             hand.DrainStamina(config.StaminaDrainPerSecond, Time.fixedDeltaTime);
-            if (hand.IsFalling) ReleaseHand(hand);
+            if (hand.IsFalling) DeactivateHand(hand);
         }
         else
         {
@@ -59,24 +61,26 @@ public class HandsController : MonoBehaviour
     }
     void ToggleHand(Hand hand, bool isActive)
     {
-        hand.Toggle(isActive);
-        if(!isActive)
+        if(!isActive && hand.IsActive)
         {
-            ReleaseHand(hand);
+            DeactivateHand(hand);
         }
+        hand.Toggle(isActive);
     }
-    
 
-    void ReleaseHand(Hand hand)
+    private void DeactivateHand(Hand hand)
     {
+        bool wasHooking = hand.IsHooking;
+        
         handMover.PutHandBack(hand.transform, transform);
         hand.Release();
         
-        if (!leftHand.IsHooking && !rightHand.IsHooking)
-        {
-            eventBus.Publish(new OnClimbEvent(false)); 
+        if (wasHooking && !leftHand.IsHooking && !rightHand.IsHooking)
+        { 
+            stateSwitcher.SwitchState(typeof(DefaultState));
         }
     }
+   
 
     void TryPerformHook(Hand hand)
     {
@@ -87,6 +91,6 @@ public class HandsController : MonoBehaviour
         
         handMover.MoveHandTo(hand.transform, hookable.GetGrabPosition());
         hand.Hook(hookable);
-        eventBus.Publish(new OnClimbEvent(true));
+        stateSwitcher.SwitchState(typeof(HangingState));
     }
 }

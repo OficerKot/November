@@ -40,6 +40,7 @@ public class PlayerEnviropmentDetector :
     {
         return groundHit.normal;
     }
+    
 
     public bool CheckHeadBlock()
     {

@@ -18,3 +18,5 @@ MonoBehaviour:
   staminaRecoverPerSecond: 1
   staminaDrainPerSecond: 1
   minStaminaToHook: 1
+  jumpForce: 2
+  jumpCooldown: 0.5

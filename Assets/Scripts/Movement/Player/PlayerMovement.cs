@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
     private CharacterController controller;
     
     [SerializeField] float gravity = -20f;
-    [SerializeField] float groundStick = -2f;
     
     private Vector3 curVelocity;
     float curJumpCooldown = 0;
@@ -23,11 +22,17 @@ public class PlayerMovement : MonoBehaviour, IVelocityProvider
         if (curJumpCooldown > 0f) curJumpCooldown -= deltaTime;
 
         if (controller.isGrounded && curVelocity.y < 0f)
-            curVelocity.y = groundStick;
+            curVelocity.y = 0f;
         else
             curVelocity.y += gravity * deltaTime;
 
-        controller.Move(curVelocity * deltaTime);
+        CollisionFlags flags = controller.Move(curVelocity * deltaTime);
+        
+        //Проверка столкновения с потолком
+        if ((flags & CollisionFlags.Above) != 0 && curVelocity.y > 0f)
+        {
+            curVelocity.y = 0f;
+        }
     }
     public void Move(Vector3 velocity)
     {

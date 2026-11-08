@@ -1,14 +1,15 @@
+using System;
 using Movement.Player;
 using UnityEngine;
 using VContainer;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] private Transform playerBody;
     [Inject] private CameraConfig config;
-    private float verticalRotation = 0f;
     
-    public void LookAround(Vector2 mouseInput)
+    private float verticalRotation = 0f;
+
+    public void LookAround(Vector2 mouseInput, Transform playerBody)
     {
         float mouseX = mouseInput.x * config.MouseSensitivity;
         float mouseY = mouseInput.y * config.MouseSensitivity;
