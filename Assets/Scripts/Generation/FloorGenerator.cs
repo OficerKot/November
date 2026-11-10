@@ -2,23 +2,38 @@ using UnityEngine;
 
 public class FloorGenerator : MonoBehaviour
 {
-    [Header("Корни сцены")]
-    [SerializeField] private Transform slotsRoot;       // Slots/
-    [SerializeField] private Transform generatedRoot;   // Slots/GeneratedWalls
+    [Header("Roots")]
+    [SerializeField] private bool useRandomSeed = true;
+    [SerializeField] private int seed = 12345;
+
+    [SerializeField] private Transform slotsRoot;       
+    [SerializeField] private Transform generatedRoot;   
+
+    [Header("Debug")]
+    [SerializeField] private Transform[] originalRoots;
 
     [ContextMenu("Generate")]
     public void Generate()
     {
         if (slotsRoot == null)
         {
-            Debug.LogError("slotsRoot не назначен.");
+            Debug.LogError("slotsRoot isn't assigned.");
             return;
         }
         if (generatedRoot == null)
         {
-            Debug.LogError("generatedRoot не назначен.");
+            Debug.LogError("generatedRoot isn't assigned.");
             return;
         }
+
+        if (useRandomSeed)
+        {
+            seed = Random.Range(0, 100000);
+        }
+        
+        Random.InitState(seed);
+        
+        Debug.Log($"Seed generation: {seed}");
 
         ClearGenerated();
 
@@ -46,7 +61,7 @@ public class FloorGenerator : MonoBehaviour
             spawned++;
         }
 
-        Debug.Log($"Сгенерировано стен: {spawned}");
+        Debug.Log($"Walls generated: {spawned}");
     }
 
     [ContextMenu("Clear Generated")]
@@ -58,14 +73,38 @@ public class FloorGenerator : MonoBehaviour
         for (int i = generatedRoot.childCount - 1; i >= 0; i--)
         {
             var child = generatedRoot.GetChild(i).gameObject;
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-                DestroyImmediate(child);
-            else
+            #if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    DestroyImmediate(child);
+                else
+                    Destroy(child);
+            #else
                 Destroy(child);
-#else
-            Destroy(child);
-#endif
+            #endif
+        }
+    }
+
+        [ContextMenu("Hide Originals")]
+    public void HideOriginals()
+    {
+        SetOriginalsActive(false);
+    }
+
+    [ContextMenu("Show Originals")]
+    public void ShowOriginals()
+    {
+        SetOriginalsActive(true);
+    }
+
+    private void SetOriginalsActive(bool isActive)
+    {
+        if (originalRoots == null)
+            return;
+
+        foreach (var root in originalRoots)
+        {
+            if (root != null)
+                root.gameObject.SetActive(isActive);
         }
     }
 }
