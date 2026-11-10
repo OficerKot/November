@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallSlot
   variants:
-  - {fileID: 5506397525714179399, guid: e899b2924cd43a3488565944e5797466, type: 3}
-  - {fileID: 4436694948763775427, guid: 2b497a02e917a0f43b553a1cb3f874c5, type: 3}
+  - {fileID: 1330551007484518768, guid: e899b2924cd43a3488565944e5797466, type: 3}
+  - {fileID: 6011593652011049586, guid: 2b497a02e917a0f43b553a1cb3f874c5, type: 3}
