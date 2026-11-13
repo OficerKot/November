@@ -3,17 +3,25 @@ using UnityEngine;
 
 public class PlayerCameraController : MonoBehaviour
 {
-    private PlayerCamera camera;
+    private IPlayerCamera camera;
     private PlayerInput input;
+    private Transform playerTransform;
+    private Transform cameraTransform;
 
     private void Awake()
     {
-        camera = GetComponentInChildren<PlayerCamera>();
+        camera = GetComponentInChildren<IPlayerCamera>();
         input = GetComponent<PlayerInput>();
     }
 
     private void FixedUpdate()
     {
-        camera.LookAround(input.lookAxis, transform);
+        CameraContext context = new CameraContext(
+            input.lookAxis,
+            playerTransform,
+            cameraTransform
+        );
+
+        camera.LookAround(context);
     }
 }

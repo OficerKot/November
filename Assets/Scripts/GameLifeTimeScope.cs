@@ -20,39 +20,59 @@ public class GameLifeTimeScope : LifetimeScope
             .As<IEventBus>()
             .As<IReadOnlyEventBus>();
 
+        RegisterStats(builder);
+        RegisterCamera(builder);
+        RegisterHands(builder);
+        RegisterStates(builder);
+        RegisterMovement(builder);
+    }
+
+    void RegisterStats(IContainerBuilder builder)
+    {
         builder.RegisterInstance(playerStatsConfig);
         builder.RegisterComponentInHierarchy<PlayerStatsController>();
         builder.RegisterComponentInHierarchy<HealthView>();
-
-        builder.RegisterComponentInHierarchy<PlayerCamera>();
-        builder.RegisterComponentInHierarchy<PlayerMovementController>();
-        builder.RegisterInstance(cameraConfig);
-        builder.RegisterInstance(playerMovementConfig);
-        
-        builder.RegisterInstance(climbConfig);
-        builder.RegisterComponentInHierarchy<ClimbPointDetector>();
-        builder.RegisterComponentInHierarchy<HandMover>();
-        builder.RegisterComponentInHierarchy<HandsController>();
-        
-        builder.Register<DefaultState>(Lifetime.Scoped);
-        builder.Register<HangingState>(Lifetime.Scoped);
-        builder.Register<CrouchingState>(Lifetime.Scoped);
-  
+    }
+    void RegisterMovement(IContainerBuilder builder)
+    {
         builder.RegisterComponentInHierarchy<PlayerInput>();
         builder.RegisterComponentInHierarchy<PlayerMovement>();
+
+        builder.RegisterComponentInHierarchy<PlayerMovementController>();
+        builder.RegisterInstance(playerMovementConfig);
+
         builder.RegisterComponentInHierarchy<PlayerCrouching>();
         builder.RegisterComponentInHierarchy<CharacterFallController>();
         builder.RegisterComponentInHierarchy<PlayerEnviropmentDetector>()
             .As<IHeadBlockDetector>()
             .As<IGroundDetector>();
         builder.RegisterComponentInHierarchy<HangingMovement>();
-        
+
         builder.Register<TemporarySpeedModifier>(Lifetime.Scoped);
         builder.Register<SpeedCalculator>(Lifetime.Scoped);
- 
-        
+    }
+    void RegisterHands(IContainerBuilder builder)
+    {
+        builder.RegisterInstance(climbConfig);
+        builder.RegisterComponentInHierarchy<ClimbPointDetector>();
+        builder.RegisterComponentInHierarchy<HandMover>();
+        builder.RegisterComponentInHierarchy<HandsController>();
+    }
+
+    void RegisterCamera(IContainerBuilder builder)
+    {
+        builder.RegisterComponentInHierarchy<PlayerDefaultCamera>(); //!!!
+        builder.RegisterInstance(cameraConfig);
+    }
+    
+    void RegisterStates(IContainerBuilder builder)
+    {
+        builder.Register<DefaultState>(Lifetime.Scoped);
+        builder.Register<HangingState>(Lifetime.Scoped);
+        builder.Register<CrouchingState>(Lifetime.Scoped);
+
         builder.Register<PlayerMovementStateMachine>(Lifetime.Scoped)
-            .AsSelf()
-            .As<IStateSwitcher>();
+         .AsSelf()
+         .As<IStateSwitcher>();
     }
 }

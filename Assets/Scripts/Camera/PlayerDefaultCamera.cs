@@ -1,29 +1,32 @@
-using System;
 using Movement.Player;
 using UnityEngine;
 using VContainer;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerDefaultCamera : IPlayerCamera
 {
     [Inject] private CameraConfig config;
     
     private float verticalRotation = 0f;
 
-    public void LookAround(Vector2 mouseInput, Transform playerBody)
+    public void LookAround(CameraContext context)
     {
+        Vector2 mouseInput = context.MouseInput;
+        Transform playerTransform = context.PlayerTransform;
+        Transform cameraTransform = context.CameraTransform;
+
         float mouseX = mouseInput.x * config.MouseSensitivity;
         float mouseY = mouseInput.y * config.MouseSensitivity;
 
-        playerBody.Rotate(Vector3.up * mouseX);
+        playerTransform.Rotate(Vector3.up * mouseX);
 
         verticalRotation -= mouseY;
-        
+
         verticalRotation = Mathf.Clamp(
             verticalRotation,
             config.MinVerticalRotation,
             config.MaxVerticalRotation);
-        
-        transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+
+        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 }
 
