@@ -61,7 +61,7 @@ public class GameLifeTimeScope : LifetimeScope
 
     void RegisterCamera(IContainerBuilder builder)
     {
-        builder.RegisterComponentInHierarchy<PlayerDefaultCamera>(); //!!!
+        builder.RegisterComponentInHierarchy<PlayerCameraController>();
         builder.RegisterInstance(cameraConfig);
     }
     

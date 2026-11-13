@@ -11,7 +11,6 @@ public class PlayerHangingCamera : IPlayerCamera
     public void LookAround(CameraContext context)
     {
         Vector2 mouseInput = context.MouseInput;
-        Transform cameraTransform = context.CameraTransform;
 
         float mouseX = mouseInput.x * config.MouseSensitivity;
         float mouseY = mouseInput.y * config.MouseSensitivity;
@@ -24,7 +23,7 @@ public class PlayerHangingCamera : IPlayerCamera
             config.MinVerticalRotation,
             config.MaxVerticalRotation);
 
-        cameraTransform.localRotation = Quaternion.Euler(
+        context.CameraTransform.localRotation = Quaternion.Euler(
             verticalRotation,
             horizontalRotation,
             0f);

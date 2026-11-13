@@ -12,6 +12,7 @@ public class DefaultState : IState
     private readonly IHeadBlockDetector headBlockDetector;
     private readonly PlayerMovement movement;
     private readonly SpeedCalculator speedCalculator;
+    private readonly PlayerCameraController cameraController;
     
     private bool isRunning;
     private bool isJumping;
@@ -21,24 +22,32 @@ public class DefaultState : IState
         PlayerInput input,
         IHeadBlockDetector headBlockDetector,
         PlayerMovement movement,
-        SpeedCalculator speedCalculator)
+        SpeedCalculator speedCalculator,
+        PlayerCameraController cameraController)
     {
         this.config = config;
         this.input = input;
         this.headBlockDetector = headBlockDetector;
         this.movement = movement;
         this.speedCalculator = speedCalculator; 
+        this.cameraController = cameraController;
+
     }
     
     public Type Tick(float deltaTime)
     {
+        cameraController.LookAround(
+            input.lookAxis,
+            movement.transform);
+
         if (input.CheckCrouch())
         {
             return typeof(CrouchingState);
         }
-        
+
         CheckMovements();
         Move();
+        
         if(isJumping)
         {
             movement.Jump(config.JumpDefaultForce, config.JumpCooldown);
@@ -53,11 +62,13 @@ public class DefaultState : IState
     public void Enter()
     { 
         ClearStates();
+        cameraController.SetStrategy(new PlayerDefaultCamera());
     }
 
     public void Exit()
     {
        ClearStates();
+       movement.ClearVelocity();
     }
 
     private void ClearStates()
@@ -78,6 +89,7 @@ public class DefaultState : IState
         Vector3 velocity = targetDirection* speed;
         movement.Move(velocity);
     }
+    
     
     private Vector3 GetTargetDirection(Vector2 input)
     {
@@ -103,6 +115,10 @@ public class DefaultState : IState
         }
         if (input.CheckRun()) isRunning = !isRunning;
     }
+
+    /// <summary>
+    /// ¬озвращает параметры скорости в зависимости от текущего состо€ни€ ходьбы
+    /// </summary>
     private SpeedCalculator.MovementSpeedParameters GetSpeedParameters()
     {
         float targetSpeed = isRunning? config.WalkSpeed * config.RunSpeedMultiplier : config.WalkSpeed;

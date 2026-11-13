@@ -1,27 +1,25 @@
-using System;
 using UnityEngine;
 
+/// <summary>
+///  онтроллер камеры. ѕозвол€ет мен€ть стратегию управлени€ камеры и двигать камеру.
+/// </summary>
 public class PlayerCameraController : MonoBehaviour
 {
-    private IPlayerCamera camera;
-    private PlayerInput input;
-    private Transform playerTransform;
-    private Transform cameraTransform;
+    private IPlayerCamera strategy;
 
-    private void Awake()
+    public void SetStrategy(IPlayerCamera strategy)
     {
-        camera = GetComponentInChildren<IPlayerCamera>();
-        input = GetComponent<PlayerInput>();
+        this.strategy = strategy;
     }
 
-    private void FixedUpdate()
+    public void LookAround(Vector2 input, Transform playerTransform)
     {
         CameraContext context = new CameraContext(
-            input.lookAxis,
+            input,
             playerTransform,
-            cameraTransform
+            transform
         );
-
-        camera.LookAround(context);
+   
+        strategy.LookAround(context);
     }
 }

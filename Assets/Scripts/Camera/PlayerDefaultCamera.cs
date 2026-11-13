@@ -26,7 +26,7 @@ public class PlayerDefaultCamera : IPlayerCamera
             config.MinVerticalRotation,
             config.MaxVerticalRotation);
 
-        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        context.CameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 }
 

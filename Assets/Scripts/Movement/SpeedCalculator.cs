@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Рассчёт скорости с учётом различных факторов (временное изменение скорости, поворот, торможение и т.п.)
+/// </summary>
 public class SpeedCalculator
 {
     private readonly TemporarySpeedModifier speedModifier = new TemporarySpeedModifier();

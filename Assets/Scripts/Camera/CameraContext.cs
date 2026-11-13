@@ -10,7 +10,7 @@ public class CameraContext
     public CameraContext(
         Vector2 mouseInput,
         Transform playerTransform,
-        Transform cameraTransform)
+        Transform cameraTransform = null)
     {
         MouseInput = mouseInput;
         PlayerTransform = playerTransform;
