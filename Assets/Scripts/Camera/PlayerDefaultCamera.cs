@@ -4,10 +4,13 @@ using VContainer;
 
 public class PlayerDefaultCamera : IPlayerCamera
 {
-    [Inject] private CameraConfig config;
-    
+    private CameraConfig config;
     private float verticalRotation = 0f;
 
+    public PlayerDefaultCamera(CameraConfig config)
+    {
+        this.config = config;
+    }
     public void LookAround(CameraContext context)
     {
         Vector2 mouseInput = context.MouseInput;

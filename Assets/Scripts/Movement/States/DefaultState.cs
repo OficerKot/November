@@ -62,7 +62,7 @@ public class DefaultState : IState
     public void Enter()
     { 
         ClearStates();
-        cameraController.SetStrategy(new PlayerDefaultCamera());
+        cameraController.SetDefaultStrategy();
     }
 
     public void Exit()
@@ -78,6 +78,7 @@ public class DefaultState : IState
     }
     private void Move()
     {
+        Debug.Log("Moving in default");
         Vector3 targetDirection = GetTargetDirection(input.moveAxis);
     
         float speed = speedCalculator.CalculateSpeed(

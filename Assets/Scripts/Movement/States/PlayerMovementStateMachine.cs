@@ -18,7 +18,7 @@ public class PlayerMovementStateMachine : IStateSwitcher
         _states[typeof(CrouchingState)] = crouchingState;
         _states[typeof(HangingState)] = hangingState;
         
-        SwitchState(typeof(DefaultState));
+        SwitchState(typeof(HangingState)); // Состояние в начале игры. Потом убрать Hanging !!!
     }
     public void Tick(float deltaTime)
     {

@@ -39,7 +39,7 @@ public class HangingState : IState
 
     public void Enter()
     {
-        cameraController.SetStrategy(new PlayerHangingCamera());
+        cameraController.SetHangingStrategy();
     }
 
     public void Exit()
