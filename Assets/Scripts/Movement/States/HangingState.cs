@@ -15,17 +15,23 @@ public class HangingState : IState
     private ClimbConfig config;
     private PlayerInput input;
     private PlayerCameraController cameraController;
+    private Rigidbody playerRb;
+    private CharacterController characterController;
 
     public HangingState(
         HangingMovement hangingMovement,
         ClimbConfig config,
         PlayerInput input,
-        PlayerCameraController cameraController)
+        PlayerCameraController cameraController,
+        Rigidbody playerRb,
+        CharacterController characterController)
     {
         this.hangingMovement = hangingMovement;
         this.config = config;
         this.input = input;
         this.cameraController = cameraController;
+        this.playerRb = playerRb;
+        this.characterController = characterController;
     }
     public Type Tick(float deltaTime)
     {
@@ -40,10 +46,14 @@ public class HangingState : IState
     public void Enter()
     {
         cameraController.SetHangingStrategy();
+        playerRb.isKinematic = false;
+        characterController.enabled = false;
     }
 
     public void Exit()
     {
+        playerRb.isKinematic = true;
+        characterController.enabled = true;
         // камеру и тело повернуть в одном направлении
     }
 

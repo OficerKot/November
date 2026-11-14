@@ -15,8 +15,8 @@ namespace Climbing
         [SerializeField] private float minStaminaToHook = 1f;
         [Header("Movement")]
         [SerializeField] private float jumpForce;
-
         [SerializeField] private float jumpCooldown;
+       
 
         public float MaxDetectionDistance => maxDetectionDistance;
         public float HookSpeed => hookSpeed;
