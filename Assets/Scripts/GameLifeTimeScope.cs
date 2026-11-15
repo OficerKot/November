@@ -14,13 +14,16 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private CameraConfig cameraConfig;
     [SerializeField] private ClimbConfig climbConfig;
     [SerializeField] private HandJointConfig handJointConfig;
+    [Header("Player")]
+    [SerializeField] private Rigidbody playerRb;
 
-    
+
     protected override void Configure(IContainerBuilder builder)
     {
         builder.Register<EventBus>(Lifetime.Singleton)
             .As<IEventBus>()
             .As<IReadOnlyEventBus>();
+        builder.RegisterInstance(playerRb);
 
         RegisterStats(builder);
         RegisterCamera(builder);
@@ -37,6 +40,7 @@ public class GameLifeTimeScope : LifetimeScope
     }
     void RegisterMovement(IContainerBuilder builder)
     {
+        builder.RegisterComponentInHierarchy<CharacterController>();
         builder.RegisterComponentInHierarchy<PlayerInput>();
         builder.RegisterComponentInHierarchy<PlayerMovement>();
 
@@ -57,6 +61,7 @@ public class GameLifeTimeScope : LifetimeScope
     {
         builder.RegisterInstance(climbConfig);
         builder.RegisterInstance(handJointConfig);
+        builder.Register<JointCreator>(Lifetime.Scoped);
         builder.RegisterComponentInHierarchy<ClimbPointDetector>();
         builder.RegisterComponentInHierarchy<HandMover>();
         builder.RegisterComponentInHierarchy<HandsController>();

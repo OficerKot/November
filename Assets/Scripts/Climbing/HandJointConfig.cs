@@ -27,6 +27,9 @@ public class HandJointConfig : ScriptableObject
     [SerializeField] private float yPosDamper;
     [SerializeField] private float zPosDamper;
 
+    [Header("Limits")]
+    [SerializeField] private float linearLimit;
+
 
     public Vector3 HandsGrabLocalPos => handsGrabLocalPos;
 
@@ -45,4 +48,6 @@ public class HandJointConfig : ScriptableObject
     public float XPosDamper => xPosDamper;
     public float YPosDamper => yPosDamper;
     public float ZPosDamper => zPosDamper;
+
+    public float LinearLimit => linearLimit;
 }

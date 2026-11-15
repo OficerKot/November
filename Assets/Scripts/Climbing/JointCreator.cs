@@ -15,24 +15,20 @@ public class JointCreator
         this.playerRb = playerRb;
     }
     /// <summary>
-    /// Создаёт соединение между точкой захвата и объектом
+    /// Создаёт соединение между игроком и объектом. Точка захвата игрока берётся из HandJointConfig.
     /// </summary>
-    /// <param name="handlerTransform">Transform объекта, с которым необходимо создать соединение</param>
-    /// <param name="handWorldPosition">Позиция точки захвата (например рук) в мировых координатах</param>
+    /// <param name="handlerWorldPosition">Позиция зацепа в мировых координатах</param>
     public void Attach(
-        Transform handlerTransform,
-        Vector3 handWorldPosition)
+        Vector3 handlerWorldPosition)
     {
         handJoint = playerRb.gameObject.AddComponent<ConfigurableJoint>();
 
         handJoint.autoConfigureConnectedAnchor = false;
   
+        handJoint.anchor = config.HandsGrabLocalPos;
 
-        handJoint.anchor =
-            playerRb.transform.InverseTransformPoint(handWorldPosition);
-
-        handJoint.connectedAnchor =
-            handlerTransform.InverseTransformPoint(handlerTransform.position);
+        handJoint.connectedAnchor = handlerWorldPosition;
+        Debug.Log(handJoint.connectedAnchor);
 
         ConfigureJoint();
     }
@@ -56,12 +52,14 @@ public class JointCreator
         };
         handJoint.yDrive = new JointDrive {
             positionSpring = config.YPosSpring,
-            positionDamper  =config.YPosDamper
+            positionDamper = config.YPosDamper
         };
         handJoint.zDrive = new JointDrive {
             positionSpring = config.ZPosSpring,
             positionDamper = config.ZPosDamper
         };
+
+        handJoint.linearLimit = new SoftJointLimit { limit = config.LinearLimit };
 
     }
 

@@ -3,6 +3,12 @@ using Climbing;
 using Hands;
 using UnityEngine;
 
+/// <summary>
+/// Одна рука игрока.
+/// Управляет состоянием активности руки, взаимодействием с объектами
+/// и выносливостью.
+/// Может захватывать предметы и цепляться за доступные поверхности.
+/// </summary>
 public class Hand : MonoBehaviour
 {
     private bool _isActive = false;
@@ -30,26 +36,13 @@ public class Hand : MonoBehaviour
     public void DrainStamina(float val, float deltaTime)
     {
         handStamina.Drain(val, deltaTime);
-        Debug.Log("Draining stamina. Cur stamina: " + handStamina.CurStamina);
+        //Debug.Log("Draining stamina. Cur stamina: " + handStamina.CurStamina);
     }
 
     public void Toggle(bool isActive)
     {
         if (isActive == this._isActive) return;
-        
-        if(isActive) Activate();
-        else Deactivate();
-      
         this._isActive =  isActive;
-    }
-    void Activate()
-    {
-        Debug.Log($"Hand {gameObject.name} has been activated");
-    }
-
-    void Deactivate()
-    {
-        Debug.Log($"Hand {gameObject.name} has been deacitvated");
     }
 
     public void GrabItem(IGrabable grabable)
@@ -62,7 +55,7 @@ public class Hand : MonoBehaviour
     {
         Release();
         currentHookable = hookable;
-        Debug.Log($"Hand is on {hookable}");
+        //Debug.Log($"Hand is on {hookable}");
     }
 
     public void Release()

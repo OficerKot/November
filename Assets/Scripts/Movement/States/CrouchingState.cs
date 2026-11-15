@@ -1,6 +1,7 @@
-using System;
 using Movement.States;
+using System;
 using UnityEngine;
+using UnityEngine.Windows;
 
 /// <summary>
 /// Состояние приседа. Игрок перемещается более медленно и не имеет возможности активировать бег.
@@ -9,29 +10,37 @@ public class CrouchingState : IState
 {
     private readonly IHeadBlockDetector headBlockDetector;
     private readonly PlayerCrouching crouching;
-    private readonly PlayerInput pInput;
+    private readonly PlayerInput input;
     private readonly PlayerMovement movement;
     private readonly SpeedCalculator speedCalculator;
     private readonly PlayerMovementConfig config;
+    private readonly PlayerCameraController cameraController;
     public CrouchingState(
         IHeadBlockDetector headBlockDetector,
         PlayerCrouching crouching,
-        PlayerInput pInput,
+        PlayerInput input,
         PlayerMovement movement,
         SpeedCalculator speedCalculator,
-        PlayerMovementConfig config)
+        PlayerMovementConfig config,
+        PlayerCameraController cameraController
+        )
     {
         this.headBlockDetector = headBlockDetector;
         this.crouching = crouching;
-        this.pInput = pInput;
+        this.input = input;
         this.movement = movement;
         this.speedCalculator = speedCalculator;
         this.config = config;
+        this.cameraController = cameraController;
     }
     
     public Type Tick(float deltaTime)
     {
-        if (pInput.CheckCrouch() && !headBlockDetector.CheckHeadBlock())
+        cameraController.LookAround(
+            input.lookAxis,
+            movement.transform);
+
+        if (input.CheckCrouch() && !headBlockDetector.CheckHeadBlock())
         {
             return typeof(DefaultState);
         }
@@ -56,14 +65,14 @@ public class CrouchingState : IState
 
     private void CheckJump()
     {
-        if (pInput.IsJumpHeld && movement.IsGrounded)
+        if (input.IsJumpHeld && movement.IsGrounded)
         {
             movement.Jump(config.CrouchJumpForce, config.JumpCooldown);
         }
     }
     private void Move()
     {
-        Vector3 targetDirection = GetTargetDirection(pInput.moveAxis);
+        Vector3 targetDirection = GetTargetDirection(input.moveAxis);
 
         float speed = speedCalculator.CalculateSpeed(
             movement.GetVelocity(),

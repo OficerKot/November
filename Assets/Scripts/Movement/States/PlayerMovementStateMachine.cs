@@ -21,7 +21,7 @@ public class PlayerMovementStateMachine : IStateSwitcher
         _states[typeof(CrouchingState)] = crouchingState;
         _states[typeof(HangingState)] = hangingState;
         
-        SwitchState(typeof(HangingState)); // Состояние в начале игры. Потом убрать Hanging !!!
+        SwitchState(typeof(DefaultState)); // Состояние в начале игры. Потом убрать Hanging !!!
     }
     public void Tick(float deltaTime)
     {
@@ -47,6 +47,9 @@ public class PlayerMovementStateMachine : IStateSwitcher
     }
 }
 
+/// <summary>
+/// Абстрактный переключатель состояний перемещения игрока.
+/// </summary>
 public interface IStateSwitcher
 {
     public void SwitchState(Type state);

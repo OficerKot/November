@@ -2,6 +2,7 @@ using Climbing;
 using Events;
 using Hands;
 using UnityEngine;
+using UnityEngine.XR;
 using VContainer;
 
 public class HandsController : MonoBehaviour
@@ -9,9 +10,23 @@ public class HandsController : MonoBehaviour
     private PlayerInput input;
     private ClimbPointDetector climbDetector;
     private HandMover handMover;
+ 
+    private IStateSwitcher stateSwitcher;
+    private ClimbConfig config;
+    private JointCreator jointCreator;
+
     [SerializeField] Hand leftHand, rightHand;
-    [Inject] private IStateSwitcher stateSwitcher;
-    [Inject] private ClimbConfig config;
+
+    [Inject]
+    public void Init(
+        IStateSwitcher stateSwitcher,
+        ClimbConfig config,
+        JointCreator jointCreator)
+    {
+        this.stateSwitcher = stateSwitcher;
+        this.config = config;
+        this.jointCreator = jointCreator;
+    }
     
 
     private void Awake()
@@ -76,7 +91,8 @@ public class HandsController : MonoBehaviour
         hand.Release();
         
         if (wasHooking && !leftHand.IsHooking && !rightHand.IsHooking)
-        { 
+        {
+            jointCreator.Detach();
             stateSwitcher.SwitchState(typeof(DefaultState));
         }
     }
@@ -88,9 +104,16 @@ public class HandsController : MonoBehaviour
         
         IHookable hookable = climbDetector.FindClimbPoint();
         if(hookable == null) return;
-        
+
+        PerformHook(hand, hookable);
+    }
+
+    void PerformHook(Hand hand, IHookable hookable)
+    {
         handMover.MoveHandTo(hand.transform, hookable.GetGrabPosition());
         hand.Hook(hookable);
+
         stateSwitcher.SwitchState(typeof(HangingState));
+        jointCreator.Attach(hookable.GetGrabPosition());
     }
 }

@@ -30,6 +30,10 @@ public class PlayerCameraController : MonoBehaviour
         strategy = hangingCamera;
     }
 
+    /// <summary>
+    /// Поворот камеры с учётом текущей стратегии управления
+    /// </summary>
+    /// <param name="input">Ввод с мыши</param>
     public void LookAround(Vector2 input, Transform playerTransform)
     {
         CameraContext context = new CameraContext(

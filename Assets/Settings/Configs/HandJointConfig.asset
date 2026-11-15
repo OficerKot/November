@@ -19,9 +19,10 @@ MonoBehaviour:
   xAngularMotion: 2
   yAngularMotion: 0
   zAngularMotion: 2
-  xPosSpring: 0
-  yPosSpring: 0
-  zPosSpring: 0
-  xPosDamper: 0
-  yPosDamper: 0
-  zPosDamper: 0
+  xPosSpring: 200
+  yPosSpring: 200
+  zPosSpring: 200
+  xPosDamper: 1
+  yPosDamper: 1
+  zPosDamper: 1
+  linearLimit: 0

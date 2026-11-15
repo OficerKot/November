@@ -78,7 +78,6 @@ public class DefaultState : IState
     }
     private void Move()
     {
-        Debug.Log("Moving in default");
         Vector3 targetDirection = GetTargetDirection(input.moveAxis);
     
         float speed = speedCalculator.CalculateSpeed(
