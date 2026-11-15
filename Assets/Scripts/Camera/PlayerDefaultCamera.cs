@@ -11,6 +11,12 @@ public class PlayerDefaultCamera : IPlayerCamera
     {
         this.config = config;
     }
+    public void SyncRotationAngles(Transform cameraTransform)
+    {
+        Vector3 angles = cameraTransform.localEulerAngles;
+
+        verticalRotation = Mathf.DeltaAngle(0f, angles.x);
+    }
     public void LookAround(CameraContext context)
     {
         Vector2 mouseInput = context.MouseInput;

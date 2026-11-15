@@ -1,6 +1,5 @@
 using Movement.Player;
 using UnityEngine;
-using VContainer;
 
 public class PlayerHangingCamera : IPlayerCamera
 {
@@ -11,6 +10,13 @@ public class PlayerHangingCamera : IPlayerCamera
     public PlayerHangingCamera(CameraConfig config)
     {
         this.config = config;
+    }
+    public void SyncRotationAngles(Transform cameraTransform)
+    {
+        Vector3 angles = cameraTransform.localEulerAngles;
+
+        verticalRotation = Mathf.DeltaAngle(0f, angles.x);
+        horizontalRotation = Mathf.DeltaAngle(0f, angles.y);
     }
     public void LookAround(CameraContext context)
     {
