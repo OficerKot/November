@@ -48,19 +48,22 @@ public class JointCreator
 
         handJoint.xDrive = new JointDrive {
             positionSpring = config.XPosSpring,
-            positionDamper = config.XPosDamper
+            positionDamper = config.XPosDamper,
+            maximumForce = Mathf.Infinity
         };
         handJoint.yDrive = new JointDrive {
             positionSpring = config.YPosSpring,
-            positionDamper = config.YPosDamper
+            positionDamper = config.YPosDamper,
+            maximumForce = Mathf.Infinity
         };
         handJoint.zDrive = new JointDrive {
             positionSpring = config.ZPosSpring,
-            positionDamper = config.ZPosDamper
+            positionDamper = config.ZPosDamper,
+            maximumForce = Mathf.Infinity
         };
 
-        handJoint.linearLimit = new SoftJointLimit { limit = config.LinearLimit };
-
+        handJoint.configuredInWorldSpace = true;
+        handJoint.targetPosition = Vector3.zero;
     }
 
     /// <summary>
