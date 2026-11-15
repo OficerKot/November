@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Movement.States;
 using UnityEngine;
 
+/// <summary>
+/// Хранит все возможные состояния перемещения игрока, обновляет и переключает их.
+/// </summary>
 public class PlayerMovementStateMachine : IStateSwitcher
 {
     private IState _curMovementState;

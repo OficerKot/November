@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class JointCreator : MonoBehaviour 
+/// <summary>
+/// Создаёт и удаляет соединение Configurable Joint между игроком и объектом 
+/// </summary>
+public class JointCreator 
 {
     private ConfigurableJoint handJoint;
     private HandJointConfig config;
@@ -11,21 +14,25 @@ public class JointCreator : MonoBehaviour
         this.config = config;
         this.playerRb = playerRb;
     }
+    /// <summary>
+    /// Создаёт соединение между точкой захвата и объектом
+    /// </summary>
+    /// <param name="handlerTransform">Transform объекта, с которым необходимо создать соединение</param>
+    /// <param name="handWorldPosition">Позиция точки захвата (например рук) в мировых координатах</param>
     public void Attach(
-        Rigidbody hookBody,
-        Vector3 handWorldPosition,
-        Vector3 hookWorldPosition)
+        Transform handlerTransform,
+        Vector3 handWorldPosition)
     {
         handJoint = playerRb.gameObject.AddComponent<ConfigurableJoint>();
 
         handJoint.autoConfigureConnectedAnchor = false;
-        handJoint.connectedBody = hookBody;
+  
 
         handJoint.anchor =
             playerRb.transform.InverseTransformPoint(handWorldPosition);
 
         handJoint.connectedAnchor =
-            hookBody.transform.InverseTransformPoint(hookWorldPosition);
+            handlerTransform.InverseTransformPoint(handlerTransform.position);
 
         ConfigureJoint();
     }
@@ -57,12 +64,16 @@ public class JointCreator : MonoBehaviour
         };
 
     }
+
+    /// <summary>
+    /// Удаляет соединение
+    /// </summary>
     public void Detach()
     {
         if (handJoint == null)
             return;
 
-        Destroy(handJoint);
+        GameObject.Destroy(handJoint);
         handJoint = null;
     }
 }

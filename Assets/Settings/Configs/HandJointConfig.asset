@@ -12,17 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814797f8ec671fb419cc3c16c75e3c8d, type: 3}
   m_Name: HandJointConfig
   m_EditorClassIdentifier: Assembly-CSharp::HandJointConfig
-  handsGrabLocalPos: {x: 0, y: 0, z: 0}
-  xMotion: 0
-  yMotion: 0
-  zMotion: 0
-  xAngularMotion: 0
+  handsGrabLocalPos: {x: 0, y: 0.65, z: 0.96}
+  xMotion: 2
+  yMotion: 2
+  zMotion: 2
+  xAngularMotion: 2
   yAngularMotion: 0
-  zAngularMotion: 0
+  zAngularMotion: 2
   xPosSpring: 0
   yPosSpring: 0
   zPosSpring: 0
   xPosDamper: 0
   yPosDamper: 0
   zPosDamper: 0
-  angularYLimit: 0

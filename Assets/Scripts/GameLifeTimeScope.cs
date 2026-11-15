@@ -9,10 +9,12 @@ using VContainer.Unity;
 public class GameLifeTimeScope : LifetimeScope
 {
     [Header("Configuration")]
-    [SerializeField] PlayerMovementConfig playerMovementConfig;
-    [SerializeField] PlayerStatsConfig playerStatsConfig;
+    [SerializeField] private PlayerMovementConfig playerMovementConfig;
+    [SerializeField] private PlayerStatsConfig playerStatsConfig;
     [SerializeField] private CameraConfig cameraConfig;
     [SerializeField] private ClimbConfig climbConfig;
+    [SerializeField] private HandJointConfig handJointConfig;
+
     
     protected override void Configure(IContainerBuilder builder)
     {
@@ -38,7 +40,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PlayerInput>();
         builder.RegisterComponentInHierarchy<PlayerMovement>();
 
-        builder.RegisterComponentInHierarchy<PlayerMovementController>();
+        builder.RegisterComponentInHierarchy<PlayerMovementStateMachineDriver>();
         builder.RegisterInstance(playerMovementConfig);
 
         builder.RegisterComponentInHierarchy<PlayerCrouching>();
@@ -54,6 +56,7 @@ public class GameLifeTimeScope : LifetimeScope
     void RegisterHands(IContainerBuilder builder)
     {
         builder.RegisterInstance(climbConfig);
+        builder.RegisterInstance(handJointConfig);
         builder.RegisterComponentInHierarchy<ClimbPointDetector>();
         builder.RegisterComponentInHierarchy<HandMover>();
         builder.RegisterComponentInHierarchy<HandsController>();

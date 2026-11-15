@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HandJointConfig", menuName = "Scriptable Objects/HandJointConfig")]
+
 public class HandJointConfig : ScriptableObject
 {
     [Header("Grab points")]
@@ -44,6 +45,4 @@ public class HandJointConfig : ScriptableObject
     public float XPosDamper => xPosDamper;
     public float YPosDamper => yPosDamper;
     public float ZPosDamper => zPosDamper;
-
-    public float AngularYLimit => angularYLimit;
 }

@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Обработка ввода с использованием Input Actions
+/// </summary>
 public class PlayerInput : MonoBehaviour
 {
     private Player_Actions _actions;
