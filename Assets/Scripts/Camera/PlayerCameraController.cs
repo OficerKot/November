@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows;
 using VContainer;
 
 /// <summary>
@@ -23,11 +24,13 @@ public class PlayerCameraController : MonoBehaviour
     public void SetDefaultStrategy()
     {
         strategy = defaultCamera;
+        strategy.SyncRotationAngles(transform);
     }
 
     public void SetHangingStrategy()
     {
         strategy = hangingCamera;
+        strategy.SyncRotationAngles(transform);
     }
 
     /// <summary>

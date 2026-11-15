@@ -54,7 +54,7 @@ public class HangingState : IState
     {
         playerRb.isKinematic = true;
         characterController.enabled = true;
-        // камеру и тело повернуть в одном направлении
+        ResetBodyRotation();
     }
 
     private void CheckJump()
@@ -66,6 +66,12 @@ public class HangingState : IState
         //руки отцепиться должны
     }
 
+    void ResetBodyRotation()
+    {
+        PlayerCameraRotationSynchronizer.RotateBodyToCamera(
+            playerRb.transform,
+            cameraController.transform);
+    }
     private void Swing()
     {
         hangingMovement.Move(Vector3.zero);

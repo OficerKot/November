@@ -113,10 +113,12 @@ public class HandsController : MonoBehaviour
         handMover.MoveHandTo(hand.transform, hookable.GetGrabPosition());
         hand.Hook(hookable);
 
-        if (!(leftHand.IsHooking && rightHand.IsHooking)) // ≈сли уже держались одной рукой - ничего не мен€ем
+        jointCreator.Detach();
+        jointCreator.Attach(hookable.GetGrabPosition());
+
+        if (!(leftHand.IsHooking && rightHand.IsHooking)) // ≈сли уже держались одной рукой - состо€ние то же
         {
             stateSwitcher.SwitchState(typeof(HangingState));
-            jointCreator.Attach(hookable.GetGrabPosition());
         }
     }
 }
